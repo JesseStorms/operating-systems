@@ -221,7 +221,7 @@ In het labo vind je een Excel-bestand met een heleboel namen. De bedoeling is da
 ---
 
 === Password resets
-Maak een scriptje om het wachtwoord van een gebruiker te resetten. Wanneer het wachtwoord gereset is, wordt het gebruikersaccount automatisch ontgrendeld, de gebruiker krijgt een tijdelijk wachtwoord en moet zijn wachtwoord aanpassen de volgende keer dat hij aanmeldt.
+Maak een scriptje dat het wachtwoord van een disabled gebruiker instelt op een vooraf bepaald paswoord (p@ssw0rd) en de gebruiker terug enabled. De gebruiker moet zijn wachtwoord aanpassen de volgende keer dat hij aanmeldt.
 
 ---
     $paswoord="p@ssw0rd"
