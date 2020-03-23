@@ -194,6 +194,6 @@ In een GPO kan "Block inheritance" ingesteld worden. Hierdoor worden de instelli
 Maak zelf een demo-oefening om dit te testen/demonstreren. Tip: Remove Recycle Bin icon from Desktop.
 
 == Wat moet je na dit labo kennen/kunnen
-* Je weet dat een GPO bestaat uit twee delen *Computer Configuration* en *User Configuration* (onthouden)
-* Je weet dat een Computer/User configuration bestaat uit *policies* en *preferences* (begrijpen)
+* Je weet en kan het verschil uitleggen tussen de twee delen waaruit een GPO bestaat *Computer Configuration* en *User Configuration* (onthouden)
+* Je weet dat een Computer/User configuration bestaat uit *policies* en *preferences* (onthouden, begrijpen)
 * Je kan opzoeken en uitleggen wat het verschil is tussen Computer/User configuration *policies* en *preferences* (analyseren)
