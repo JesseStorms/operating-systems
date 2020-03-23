@@ -15,17 +15,15 @@ Controleer dat de twee bestanden correct gedownload zijn door de SHA1-hash te be
 * SHA1(en_windows_server_2019_…iso) = 24f7c459f3612df82205a45fdb68ca9f96bc5d80
 * SHA1(en_windows_10_education_…iso) = fdc69e1c3e588a8b96fa9aad8f82458522e59365
 
-Creër twee nieuwe virtuele machines waarop je vervolgens Windows 10 en Windows Server 2019 installeert. Geeft de images elk 1Gb RAM en zorg dat je de schijven groot genoeg maakt (60GB – geen zorgen: de virtuele machine neemt niet daadwerkelijk deze plaats in, maar slechts de plaats die het echt nodig heeft).
+Creëer twee nieuwe virtuele machines waarop je vervolgens Windows 10 en Windows Server 2019 installeert. Geeft de images elk 1GB RAM en zorg dat je de schijven groot genoeg maakt (60GB – geen zorgen: de virtuele machine neemt niet daadwerkelijk deze plaats in, maar slechts de plaats die het echt nodig heeft).
 
-Zorg dat de VM een netwerkkaart heeft waarmee gecommuniceerd kan worden tussen de verschillende virtuele machines. Hiervoor gebruiken we een Host only-netwerk, wat eigenlijk een virtueel netwerk is waar enkel de virtuele machines op zitten. Het is ook mogelijk om die virtuele machines te laten connecteren op het internet via een bridged of een NAT netwerk. Bridged wil zeggen dat de virtuele machines rechtstreeks verbonden zijn op de netwerkkaart van de host en zo dus ook rechtstreeks kunnen connecteren op het netwerk waar de host op verbonden is (bijv. het eduroam-netwerk). Bij het NAT-alternatief wordt er een privaat netwerk gemaakt waar de virtuele machines inzitten (zoals bij Host only dus), maar gaat de hostmachine ook zijn Internetconnectie delen binnen dit private netwerk. De virtuele machines kunnen dus via de host met het Internet communiceren. Je mag dit eens uittesten (pas de instellingen aan, en kijk via het commando ipconfig in de virtuele machines welk IP-adres je krijgt), maar zorg dat je uiteindelijk terug de machines laat communiceren via een Host only-netwerk. 
-
-Je hoeft niet te kiezen voor een NAT-netwerk; de virtuele machines worden best niet op het internet aangesloten…
+Zorg dat de VM een netwerkkaart heeft waarmee gecommuniceerd kan worden tussen de verschillende virtuele machines. Hiervoor gebruiken we een Host only-netwerk, wat eigenlijk een virtueel netwerk is waar enkel de virtuele machines op zitten. Het is ook mogelijk om die virtuele machines te laten connecteren op het internet via een bridged of een NAT netwerk. Bridged wil zeggen dat de virtuele machines rechtstreeks verbonden zijn op de netwerkkaart van de host en zo dus ook rechtstreeks kunnen connecteren op het netwerk waar de host op verbonden is (bijv. het eduroam-netwerk). Bij het NAT-alternatief wordt er een privaat netwerk gemaakt waar de virtuele machines in zitten (zoals bij Host only dus), maar gaat de hostmachine ook zijn Internetconnectie delen binnen dit private netwerk. De virtuele machines kunnen dus via de host met het Internet communiceren. Je mag dit eens uittesten (pas de instellingen aan, en kijk via het commando ipconfig in de virtuele machines welk IP-adres je krijgt), maar zorg dat je uiteindelijk terug de machines laat communiceren via een Host only-netwerk. 
 
 Koppel het ISO-bestand met de Windows-installatie aan de virtuele machine en start de machine. Vul géén productsleutel in. Je installatie zal na een tijd vervallen, maar we kunnen dit lang genoeg rekken tot na het examen… .
 
-Net voordat je licentie verloopt kan je wel Windows “rearmen”, wat wil zeggen dat je je evaluatieperiode verlengt. Dat kan je een aantal keer doen, totdat de bovenvermeldde tijd verstreken is. Meer informatie over het verlengen van de licentiesleutel vind je op de https://support.microsoft.com/en-us/help/948472/how-to-extend-the-windows-server-2008-evaluation-period[Microsoft Support-website]. 
+Net voordat je licentie verloopt kan je wel Windows “rearmen”, wat wil zeggen dat je je evaluatieperiode verlengt. Dat kan je een aantal keer doen, totdat de evaluatieperiode verstreken is. Meer informatie over het verlengen van de licentiesleutel vind je op de https://support.microsoft.com/en-us/help/948472/how-to-extend-the-windows-server-2008-evaluation-period[Microsoft Support-website]. 
 
-Een alternatief is om een legale productcode aan te vragen bij Microsoft via de Intranet website van UCLL. Via deze website kan je gratis Microsoft-software downloaden, waaronder allerlei edities van Windows. Eens je via deze website een productsleutel gekregen hebt, kan je die eenvoudigweg ingeven in de virtuele machine, en zal de licentie nooit verlopen.
+Een alternatief is om een legale productcode aan te vragen bij Microsoft via de Intranet website van UCLL. Via deze website kan je gratis Microsoft-software downloaden, waaronder allerlei edities van Windows. Eens je via deze website een productsleutel gekregen hebt, kan je die eenvoudigweg ingeven in de virtuele machine.
 
 == Cosci.be
 
@@ -33,13 +31,13 @@ De firma Cosci heeft op dit moment een 70-tal Windows PC's.
 
 image::cosci-netinfra.png[]
 
-Hieronder een schema zoals het  bedrijfsnetwerk er momenteel uitziet. Eén router is met het internet verbonden, aan die router is een switch verbonden, en op de switch hangen een heleboel PC's en printers.
+Hieronder een schema zoals het  bedrijfsnetwerk er momenteel uitziet. Eén router is met het internet verbonden, aan die router is een switch verbonden en aan die switch hangen een heleboel PC's en printers.
 
 Iedere keer dat er een nieuwe werknemer wordt aangenomen, moet de ICT-afdeling een nieuwe PC klaarmaken, er een lokaal account op maken en deze gaan plaatsen op het bureau. Ook wanneer een personeelslid van afdeling verhuist, moet ze handmatig een nieuw account gaan maken op de PC die er staat. Iedere keer wanneer een gebruiker zijn wachtwoord vergeet, moet een administrator op alle PC's waarop deze gebruiker werkt, aanmelden met het Administrator-account en het paswoord lokaal op de PC veranderen.
 
 De ICT-afdeling heeft gehoord dat dit efficiënter kan door de PC's aan een **Active Directory-server** te koppelen, waarop ze alle PC's en gebruikers vanop één centrale plaats kunnen beheren. Ook het beheer van printers en PC-instellingen zouden eenvoudiger via dit Active Directory kunnen verlopen.
 
-NOTE: Active Directory bestaat uit meer dan alleen een Active Directory Domain Controller. Voor de eenvoud van dit labo gaan we er van uit dat een Windows Domain hetzelfde is als een Active Directory Domain of een Domain en dat dit  Domain wordt beheerd of invulling krijgt door middel van een Domain Controller die, ook wel Active Directory Domain Controller genoemd. Aan de UCLL wordt Active Directory bijvoorbeeld gebruikt, zodat jullie in de PC-klassen op eender welke computer kunnen inloggen met jullie gebruikersnaam. Alle computers van de PC-klas zitten in het UCLL-domein, en wanneer je inlogt op één van die computers worden je gegevens gecontroleerd door de domain controller.
+NOTE: Active Directory bestaat uit meer dan alleen een Active Directory Domain Controller. Voor de eenvoud van dit labo gaan we er van uit dat een Windows Domain hetzelfde is als een Active Directory Domain of een Domain en dat dit  Domain wordt beheerd of invulling krijgt door middel van een Domain Controller die, ook wel Active Directory Domain Controller genoemd. Aan de UCLL wordt Active Directory bijvoorbeeld gebruikt, zodat jullie in de PC-klassen op gelijkwelke computer kunnen inloggen met jullie gebruikersnaam. Alle computers van de PC-klas zitten in het UCLL-domein, en wanneer je inlogt op één van die computers worden je gegevens gecontroleerd door de domain controller.
 
 == Windows Domein
 Om te beginnen aan dit labo moeten we eerst begrijpen wat een Windows Domain is. Een Windows Domain is een logisch netwerk, waarin alle user-accounts, computers, printers, netwerkschijven, ... geregistreerd zijn op een centrale server, de Active Directory Domain Controller. Doordat alles centraal geregistreerd is, kunnen we het ook centraal beheren. Dit geeft ons een heleboel mogelijkheden:
@@ -54,21 +52,21 @@ image::cosci-netinfra-DC.png[]
 
 == Installatie Windows Server 2019
 
-Om een Donein Controller te installeren, moeten je eerst een Windows Server hebben.
+Om een Domein Controller te installeren, moet je eerst een Windows Server hebben.
 
 1. Download de ISO van Windows Server 2019.
 2. In VMWare selecteer je "Create a new Virtual Machine".
 3. Je gebruikt de "typical" configuratie.
 4. Bij Installer-Disk-image selecteer je de ISO die je gedownload hebt. VMWare zal normaal gezien automatisch herkennen dat dit een Windows-Installatie is.
 5. Je kan vanuit VMWare automatisch een user-account laten maken. Als gebruikersnaam gebruiken we `Administrator` en als wachtwoord `p@ssw0rd`.
-6. Wanneer je volledig door de set-up bent gegaan zal Windows Server automatisch beginnen installeren. Op een gegeven moment vraagt de installer of je Windows Server Core of Standard wilt gebruiken. Voor gebruiksgemak kiezen we hier voor Desktop-Experience, **niet de CORE-editie**.
+6. Wanneer je volledig door de set-up bent gegaan zal Windows Server automatisch beginnen installeren. Op een gegeven moment vraagt de installeer of je Windows Server Core of Standard wilt gebruiken. Voor gebruiksgemak kiezen we hier voor Desktop-Experience, **niet de CORE-editie**.
 
 Terwijl je wacht op de installatie, bekijk je het volgende https://www.youtube.com/watch?v=GfqsFtmJQg0[filmpje]. Daarin wordt uitgelegd wat we allemaal kunnen doen met Active Directory, en met welke tools we Active Directory Domain kunnen beheren.
 
 == Installatie Windows 10 Client
 Hiernaast willen we natuurlijk ook een client Windows 10 uitvoeren. De procedure hiervoor is zeer gelijkaardig aan die van de server. Volg de installatie-instructies, zorg dat je Windows 10 Education installeert! Wanneer gevraagd wordt om een gebruiker met een paswoord aan te maken (die de beheersrechten heeft), kies je als paswoord: *p@ssw0rd*. Laat het paswoord ook niet leeg! Anders zal je later problemen krijgen… .
 
-Om communicatie tussen de twee machines mogelijk te maken zal je **Windows Device Discovery en FileSharing** moeten aanzetten. Door dit te doen, worden bepaalde poorten op de firewall opengezet, die belangrijk zijn voor het delen van bestanden en informatie voor Windows-machines. De gemakkelijkste manier is om de verkenner te openen en naar 'Network' te gaan. Er verschijnt bovenaan een gele balk die meldt dat device discovery uitstaat. Je kan deze aanzetten door er op te klikken. Dit moet je uiteraard op beide machines doen. **Test hierna of de twee machines elkaar kunnen pingen**.
+Om communicatie tussen de twee machines mogelijk te maken zal je **Windows Device Discovery en File Sharing** moeten aanzetten. Door dit te doen, worden bepaalde poorten op de firewall opengezet, die belangrijk zijn voor het delen van bestanden en informatie voor Windows-machines. De gemakkelijkste manier is om de verkenner te openen en naar 'Network' te gaan. Er verschijnt bovenaan een gele balk die meldt dat device discovery uitstaat. Je kan deze aanzetten door er op te klikken. Dit moet je uiteraard op beide machines doen. **Test hierna of de twee machines elkaar kunnen pingen**.
 
 TIP: `cmd`, `ipconfig`, `ping`
 
