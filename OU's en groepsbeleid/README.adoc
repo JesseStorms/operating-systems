@@ -7,7 +7,7 @@ UCLL
 
 We hebben nu een computer met Active Directory gekoppeld en een gecentraliseerde gebruiker aangemaakt om aan te melden. Active Directory biedt echter nog een heleboel meer mogelijkheden en één heel belangrijke mogelijkheid is het definiëren van configuraties of afspraken voor PC's/gebruiker(s) binnen het domein.
 
-Zo'n configuraties noemen we **Group Policy settings**. Een Group Policy Setting laat ons een heleboel opties, bijvoorbeeld bepaalde software installeren, beveiligingsopties aanpassen, folder redirection, en het aanpassen van de Windows Registry. Een aantal Group Policy Settings (regels) vormen samen een Group Policy Object, een set van regels die logischerwijs samenhoren. Hieronder staat de basis over GPO's kort samengevat, maar natuurlijk heeft Microsoft hier zijn eigen documentatie over. https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-7/hh147307(v=ws.10)?redirectedfrom=MSDN[Dit artikel] omschrijft de essentie van GPO's, en is zeker een interessant als je meer details wilt. Bekijk daarnaast ook gerust dit https://www.youtube.com/watch?v=azup50LaIN0[filmpje]. Een GPO omvat beleidsregels, nl. policies of voorkeuren  nl. preferences die ingesteld of toegepast moeten worden voor bepaalde gebruiker(s) en/of computer(s).
+Zo'n configuraties noemen we **Group Policy Settings**. Een Group Policy setting maakt het mogelijk om een heleboel configuraties door te voeren, bijvoorbeeld bepaalde software installeren, beveiligingsopties aanpassen, folder redirection, en het aanpassen van de Windows Registry, meer hierover wordt wel duidelijk tijdens het labo. Een aantal Group Policy Settings (regels) kunnen samen een Group Policy Object vormen, een set van regels die jij als beheerder van het domein logischerwijs vindt samenhoren. Hieronder staat de basis over GPO's kort samengevat, maar natuurlijk heeft Microsoft hier zijn eigen documentatie over. https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-7/hh147307(v=ws.10)?redirectedfrom=MSDN[Dit artikel] omschrijft de essentie van GPO's, en is zeker een interessant als je meer details wilt. Bekijk daarnaast ook gerust dit https://www.youtube.com/watch?v=azup50LaIN0[filmpje]. Een GPO omvat beleidsregels, nl. **policies** of voorkeuren  nl. **preferences** die ingesteld of toegepast moeten worden voor bepaalde gebruiker(s) en/of computer(s).
 
 
 IMPORTANT: de beveiliging van "bronnen" (printers, netwerkschijven,...) worden niet afgedwongen d.m.v. group policies maar groepen (global, domein lokaal, ...).
@@ -16,9 +16,9 @@ IMPORTANT: de beveiliging van "bronnen" (printers, netwerkschijven,...) worden n
 == Soorten GPO's
 We onderscheiden 3 soorten Group Policy Objects (GPO's):
 
-1. **Local Group Policy Objects**: Dit zijn Group Policy Objects die van toepassing zijn op 1 enkele lokale PC en de gebruikers die hierop aanmelden. Deze bestaan standaard op iedere PC's, al dan niet opgenomen in een domein.
+1. **Local Group Policy Objects**: Dit zijn Group Policy Objects die van toepassing zijn op 1 enkele lokale PC en de gebruikers die hierop aanmelden. Deze bestaan standaard op iedere PC, al dan niet opgenomen in een domein.
 2. **Non-local Group Policy Objects**: Group Policy Objects die van toepassing zijn op meerdere PC's. Een GPO is van het type Non-Local, zodra deze op een Active Directory Server geïnstalleerd worden. Non-local Group Policy Objects overschrijven altijd Local Group Policy Objects.
-3. **Starter Group Policy Objects**: Dit zijn templates, waarvan je kan starten met het aanmaken van GPO's.
+3. **Starter Group Policy Objects**: Dit zijn templates, waarvan je kan starten bij het aanmaken van GPO's.
 
 == Voordelen van GPO's
 * Efficiënter beheer van IT-omgevingen
@@ -40,42 +40,68 @@ GPO's worden in een bepaalde volgorde verwerkt.
 
 Dit wilt concreet zeggen dat een setting in een GPO die local geconfigureerd is overschreven wordt als diezelfde setting opgenomen in een GPO gekoppeld aan het domein, anders geconfigureerd is.
 
+ Het tijdstip waarop GPO-instellingen effectief worden, is niet altijd hetzelfde. Bijvoorbeeld:
+
+* Instellingen van computer configuration worden toegepast als de computer (her)start
+* Instellingen van user configuration worden toegepast als de gebruiker (her)inlogt
+
 == Aan de slag
 
 === Group Policy Management
 
- Bij de installatie van Active Directory wordt de tool "Group Policy Management" mee geïnstalleerd. Deze is te vinden in Server Manager>Tools. 
+Bij de installatie van Active Directory wordt de tool "Group Policy Management" mee geïnstalleerd. Deze is te vinden in Server Manager>Tools. 
 
 Het merendeel van dit labo zal zich hier afspelen. Als je het vorige labo goed hebt afgerond, zie je in de balk aan de linkerzijkant iets zoals hieronder:
 
 image::images/image1.png[]
 
-Van hier gaan we onze eerste GPO aanmaken. Met de rechtermuisknop klik je op cosci.be en maak je een nieuwe GPO aan. Je geeft de GPO de naam "Enforce Password Policy". De GPO zal automatisch verschijnen onder cosci.be. Deze is nu nog leeg, dus we willen hem aanpassen, rechtermuisknop>Edit.
+Alvorens nieuwe GPO's aan te maken, is het belangrijk om te beseffen dat er reeds twee GPO's aangemaakt zijn, nl. Default Domain Controllers Policy en Default Domain Policy. De eerste GPO is bedoeld om de domein controllers te beveiligen en de tweede GPO stelt standaard beleidsregels in voor het domein. Enkele instellen zijn hieronder te zien:
+
+image::images/image5.png[]
+
+In OU=Sales gaan we onze eerste GPO aanmaken. Met de rechtermuisknop klik je op de OU=Sales en maak je een nieuwe GPO aan. Je geeft de GPO de naam "labo-GPO-nr1". De GPO zal automatisch verschijnen onder de container OU=Sales. Deze is nu nog leeg, dus we willen hem aanpassen, rechtermuisknop>Edit.
 
 
-Hier krijgen we twee opties: Computer Configuration & User Configuration. Navigeer in beide categorieën naar Policies, Administrative Templates, en kijk welke regels je zoal kan instellen. Je merkt dat het aantal beleidsregels enorm is. Elke regel kan ingeschakeld, uitgeschakeld of niet geconfigureerd zijn. Voor het afdwingen van de Password Policy navigeren we naar Computer Configuration>Policies>Windows Settings>Security Settings>Account Policies>Password Policiy. Wanneer we dit venster open hebben zien we een aantal opties. Open 'Password must meet complexity requirements' en selecteer enable. Als je dit gedaan hebt zou je het volgende moeten zien.
+Hier krijgen we twee opties: Computer Configuration & User Configuration. Navigeer in beide categorieën naar Policies, Administrative Templates, en kijk welke regels je zoal kan instellen. Je merkt dat het aantal beleidsregels enorm is. Elke regel kan **ingeschakeld**, **uitgeschakeld** of **niet geconfigureerd** zijn. Voor het afdwingen van de Password Policy navigeren we naar Computer Configuration>Policies>Windows Settings>Security Settings>Account Policies>Password Policiy. Wanneer we dit venster open hebben zien we een aantal opties. Open 'Password must meet complexity requirements' en selecteer *Disabled*. Als je dit gedaan hebt zou je het volgende moeten zien.
 
 image::images/image2.png[]
 
-Zorg nu dat de laatste 10 wachtwoorden worden onthouden, een wachtwoord minstens 1 dag oud moet zijn voor het veranderd kan worden, na een jaar veranderd moet worden, het minstens 8 tekens heeft en dat het niet opgeslagen wordt met een terugkeerbare encryptie. Kijk ook zeker naar de standaardwaarden van de configuratie, die je vindt onder "Explain" als je een configuratie opent. 
+Zorg nu dat de laatste 5 wachtwoorden worden onthouden, een wachtwoord minstens 1 dag oud moet zijn voor het veranderd kan worden, na een jaar veranderd moet worden, het minstens 3 tekens heeft, dat het niet opgeslagen wordt met een terugkeerbare encryptie en behoudt de complexitiy requirements zoals hierboven. Kijk ook zeker naar de standaardwaarden van de configuratie, die je vindt onder "Explain" als je een configuratie opent. 
 
-Wanneer je klaar bent, sluit je het venster gewoon af. Je hebt nu een Group Policy Object geconfigureerd op het domein-niveau. Probeer nu een GPO aan te maken met een minimale wachtwoordlengte van 10 tekens op het niveau van de OU 'Sales'. Test daarna of deze de bovenstaande GPO (op een hoger niveau) overschrijft. (User aanmaken in OU, inloggen, policy aanmaken, password proberen aan te passen, ...).
+Wanneer je klaar bent, sluit je het venster gewoon af. Je hebt nu een Group Policy Object geconfigureerd op het domein-niveau. 
 
-IMPORTANT: Werkt dit? Waarschijnlijk niet, je moet de PC of computer van de user in de juiste OU zetten, omdat het een computer policy is die je aangepast hebt. **Er is dus een duidelijk verschil tussen USER en COMPUTER policies!** Afhankelijk van de policy die je aanmaakt, moet de user en/of de PC in de juiste OU geplaatst worden. 
+Test of de GPO werkt: 
 
-Het tijdstip waarop GPO-instellingen effectief worden, is niet altijd hetzelfde. Bijvoorbeeld:
+* Maak een user1 aan met paswoord p@ssw0rd in OU=Sales
+* Log in met user1 op de Windows 10 machine en probeer het paswoord aan te passen naar ttt ... => lukt niet!
 
-* Instellingen van computer configuration worden toegepast als de computer (her)start
-* Instellingen van user configuration worden toegepast als de gebruiker (her)inlogt
+OK, waarom lukt dit niet ... wat zegt de error boodschap van Windows: 
 
-Als men hier niet wil op wachten, kan men ook via (run) het commando `gpupdate /force` geven
+image::images/image3.png[]
+
+Het nieuwe paswoord kan "verkeerd" zijn volgens een van de drie redenen:
+
+* does not meet the length => kan niet is 3 karakters lang
+* does not meet the complixity => is afgezet
+* does not meet the history requirements => verder onderzoeken ...
+
+Het paswoord moet één dag oud zijn alvorens het aangepast zou kunnen worden, dan moet er onderzocht worden wanneer het paswoord "aangemaakt" werd. Gebruik PowerShell met het commando `Get-ADuser -identity user1 -porperties *` op de server en controleer of het paswoord "ouder" is dan een dag. Als dat niet zo is ... (en kies optie 2):
+
+* wacht tot morgen ;-)
+* hef die beleidsregel op => zet de minimum password age op 0
+
+IMPORTANT: Werkt de paswoordaanpassing na de beleidsaanpassing van de "minimale password age" op 0 te zetten? Waarschijnlijk nog niet, je moet de PC of computer van de user in de juiste OU zetten, omdat het een computer policy is die je aangepast hebt. *Er is dus een duidelijk verschil tussen USER en COMPUTER policies!* Afhankelijk van de policy die je aanmaakt, moet de user en/of de PC in de juiste OU geplaatst worden.
+
+Plaats de PC in de juiste OU=Sales en probeer het paswoord nu aan te passen? Lukt het? Eindelijk! ... of toch https://community.spiceworks.com/topic/2160696-password-policy-not-working-but-is-applied[niet].
+
+IMPORTANT: Volgens bovenstaande link is het **voorbeeld van password-policy een slecht voorbeeld**. Om toch te controlleren of de computerpolicy wel degelijk werkt, kan je deze testen met het "Start Menu" via Computer policy => Admin. Templ. => Start Menu => full screen. 
 
 Als je wil zien wat er precies is geconfigureerd in een bepaalde GPO, klik je op de GPO en selecteer je de tab 'Settings'. Hier zie je alle configuraties. Onder Scope zie je ook aan wie een GPO gekoppeld is. Je kan ook bestaande GPO's koppelen aan meerdere containers. Dit doe je door naar een OU/Domain te gaan en te klikken op 'Link existing GPO'.
 
-Note: Als meerdere GPO's na mekaar toegepast worden, dan betekent **niet geconfigureerd** de vorig toegepaste instelling blijft en **uitgeschakeld** wat de vorige instelling ook was, ze wordt nu uitgeschakeld.
+Note: Als meerdere GPO's na mekaar toegepast worden, dan betekent **niet geconfigureerd** dat de vorig toegepaste instelling in de GPO-hiërarchie blijft en **uitgeschakeld**, wat de vorige instelling ook was, ze wordt nu uitgeschakeld.
 
 === Policies debuggen
-Wanneer er iets misloopt met het toepassen van een policy, zijn er tools om te kijken waar het probleem precies zit. Een eerste stap is kijken welke regels er nu toegepast werden. Dit kan je doen door in een console-venster het commando `gpresult /v` in te typen. Dit geeft een lijst van alle policies die toegepast worden op de huidige gebruiker, alsook wat extra informatie. Je kan deze informatie ook wegschrijven als een (overzichtelijker) HTML-bestand door het commando `gpresult /H bestand.html`.
+Wanneer er iets misloopt met het toepassen van een policy, zijn er tools om te kijken waar het probleem precies zit. Een eerste stap is kijken welke regels er nu toegepast werden. Dit kan je doen door in een console-venster het commando `gpresult /v` in te typen. Dit geeft een lijst van alle policies die toegepast worden op de huidige **gebruiker**, alsook wat extra informatie. Je kan deze informatie ook wegschrijven als een (overzichtelijker) HTML-bestand door het commando `gpresult /H bestand.html`.
 Wanneer een policy niet toegepast kan worden, gaat de Group Policy Client een foutmelding wegschrijven in het Windows event log. Je kan deze log bekijken door het programma Event Viewer op te starten en te navigeren naar Windows logs.
 
 Zoals reeds kort aangehaald werd, komen hiërarchieën van OU’s vaak voor (dat is in feite de bedoeling). Aangezien je op elke OU bepaalde regels kan instellen, kunnen conflicten voorkomen.
@@ -171,22 +197,22 @@ Zorg dat iedere keer dat er iemand aanmeldt op een PC in het domein, de gebruike
 === Installeer van programma's (op alle pc's)
 Standaard hebben domeingebruikers geen rechten om programma’s te installeren op een pc. Vaak wil men echter toch kunnen toelaten dat de gebruiker bepaalde software kan installeren, zonder hem toe te laten om eender welke software te installeren. Ook hier kunnen GPO's gebruikt worden om in te stellen welke programma’s de gebruikers mag installeren op een cliënt-pc.
 
-Als voorbeeld nemen we de installatie van 7-zip. Downloadt dit en start het setup-bestand. Volg de setup wizard (laat de standaard waardes telkens ongemoeid) en blijf doorklikken tot de installatie daadwerkelijk begint. Op dat moment zal je een loginvenster krijgen waarin je je moet aanmelden als een administrator. Dit komt omdat het setup-programma aanpassingen moet maken die voor normale gebruikers niet toegelaten zijn (bijv. het kopiëren van bestanden naar C:\Program Files).
+Als voorbeeld nemen we de installatie van 7-zip. Downloadt dit *msi-bestand* op de cliënt-PC en start het setup-bestand. Volg de setup wizard (laat de standaard waardes telkens ongemoeid) en blijf doorklikken tot de installatie daadwerkelijk begint. Op dat moment zal je een loginvenster krijgen waarin je je moet aanmelden als een administrator. Dit komt omdat het setup-programma aanpassingen moet maken die voor normale gebruikers niet toegelaten zijn (bijv. het kopiëren van bestanden naar C:\Program Files).
 
-Open nu het groepsbeleidsbeheer op de domain controller, en maak een nieuwe GPO onder de OU IT met de naam “Software installeren”. Bewerk de GPO en ga naar User Configuration, Policies, Software Settings, Software installation. Rechterklik, en kies New, Package. Als bestandsnaam vul je het pad naar het gedeelde bestand in (bijv. \\VMware-host\7z1801-x64.msi). Klik op Open.
+Open nu het groepsbeleidsbeheer op de domain controller, en maak een nieuwe GPO onder de OU=IT met de naam “Software installeren”. Bewerk de GPO en ga naar User Configuration, Policies, Software Settings, Software installation. Rechterklik, en kies New, Package. Als bestandsnaam vul je het pad naar het gedeelde bestand in (bijv. \\VMware-host\7z1801-x64.msi). Klik op Open.
 
 In het volgende scherm krijg je de keuze hoe je de software wil distribueren. Standaard staat **Published** geselecteerd, wat wil zeggen dat de gebruiker kan kiezen of hij de software wil installeren of niet. De optie **Assigned** betekent dat de gebruiker niet kan kiezen, en dat de software automatisch geïnstalleerd wordt. Kies Published en klik OK. Sluit de groepsbeleidsbeheer editor af.
 
-Log in op de Windows 10-machine als een gebruiker in de OU IT. Ga via het Control Panel naar Programs, Programs and Features, Install a program from the network. In deze lijst zie je nu het programma 7-zip staan en kan je het zonder probleem installeren (ook zonder beheerdersrechten).
+Log in op de Windows 10-machine als een gebruiker in de OU=IT. Ga via het Control Panel naar Programs, Programs and Features, Install a program from the network. In deze lijst zie je nu het programma 7-zip staan en kan je het zonder probleem installeren (ook zonder beheerdersrechten).
 
 Installeer het msi-bestand dat je voor dit labo op Toledo terug kan vinden. Hiervoor zal je een netwerk-share nodig hebben. Het gemakkelijkste hiervoor is om een shared folder in VMWare aan te maken en deze aan beide VM's te koppelen eventueel door *map network drive* in `This PC`.
 
 === Delegatie
 Voor grote domeinen kan er veel werk zijn om alle gebruikers en instellingen te beheren. Normaal is dit de taak van de systeembeheerders, maar soms kan het zijn dat de beheerders een aantal taken willen doorgeven aan anderen (zonder die andere gebruikers daarvoor de volledige beheerdersrechten te geven). Active Directory ondersteunt dit scenario door middel van *delegatie*.
 
-Ga naar Active Directory Users and Computers, rechtsklik de gepaste OU (HR) en kies *Delegate Control…* . Voeg via de wizard de juiste groep (IT-admins) toe en laat toe dat deze groep nieuwe gebruikersaccounts kan maken, verwijderen en beheren.
+Ga naar Active Directory Users and Computers, rechtsklik de gepaste OU=HR en kies *Delegate Control…* . Voeg via de wizard de juiste groep (IT-admins) toe en laat toe dat deze groep nieuwe gebruikersaccounts kan maken, verwijderen en beheren.
 
-Log op de Windows 10-machine in als een gebruiker in de groep IT-admins en ga via het start menu naar *Windows Administrative Tools*, Active Directory Users and Computers. Probeer een nieuwe gebruiker aan te maken onder de OU HR; lukt dit? Waarom niet? Wat moet je doen om het wel te laten lukken? Doe dit nu en test opnieuw. Wanneer je hetzelfde probeert onder de OU Sales dan zal je zien dat dit niet lukt (aangezien de gebruiker hier geen rechten voor heeft).
+Log op de Windows 10-machine in als een gebruiker in de groep IT-admins en ga via het start menu naar *Windows Administrative Tools*, Active Directory Users and Computers. Probeer een nieuwe gebruiker aan te maken onder de OU=HR; lukt dit? Waarom niet? Wat moet je doen om het wel te laten lukken? Doe dit nu en test opnieuw. Wanneer je hetzelfde probeert onder de OU=Sales dan zal je zien dat dit niet lukt (aangezien de gebruiker hier geen rechten voor heeft).
 
 === Overname blokkeren of niet
 In een GPO kan "Block inheritance" ingesteld worden. Hierdoor worden de instellingen van een hoger niveau NIET toegepast, we beginnen weer met een “schone lei”. Hierop is evenwel één uitzondering: op een (ouder-)GPO kan ook “Enforced” gespecifieerd worden. Het gevolg is dan dat de instellingen lager in de hiërarchie (ook indien er een "Block inheritance" tussen staat) niet meer  van toepassing zijn.
