@@ -74,6 +74,7 @@ Wanneer een gebruiker zich aanmeldt op een computer, kan hij zijn persoonlijke b
     Gebruiker1
     Gebruiker2
     …
+
 Aangezien gebruikers zich op eender welke computer in het domein kunnen aanmelden, moeten we zorgen dat de home folders centraal toegankelijk zijn (d.w.z. ze moeten staan op een server waar alle computers in het domein aan kunnen. In dit geval gaan we de domeinserver gebruiken als locatie voor onze home folders, maar in principe kan het ook eender welke andere server in het domein zijn. Lees verder ... .
 
 ==== Gedeelde map maken
@@ -119,7 +120,7 @@ Log in op de Windows 10-machine als gebruiker sales1 en bekijk de inhoud van de 
 Daarnaast hebben we in M\: ook een Shared Folder genaamd Distributie. In deze folder staat een MSI-bestand, die we via een Group Policy op alle PC's installeren. Natuurlijk mogen gebruikers deze share niet kunnen aanpassen, omdat ze wel eens malafide programma's erop kunnen zetten, die dan geïnstalleerd worden.
 
 === Quota
-Ten slotte weten we ook van de divisie engineering dat ze vaak veel te grote bestanden op hun share zetten. Daarom willen we hun share limiteren tot 2 Gigabyte en dat er een mailtje naar admin@cosci.be gestuurd wordt wanneer 95% in gebruik is. Het kan zijn dat je hier extra features voor moet installeren op de Windows Server (tip: Quota, staan al ergens in de Server Manager).
+Ten slotte weten we ook van de divisie engineering dat ze vaak veel te grote bestanden op hun share zetten. Daarom willen we hun share limiteren tot 2 Gigabyte en dat er een mailtje naar admin@cosci.be gestuurd wordt wanneer 95% in gebruik is. Het kan zijn dat je hier extra features voor moet installeren op de Windows Server (tip: Quota maakt deel uit van File System Storage Management).
 
 == Referentie (lezen ter info)
 === NTFS-permissies voor folders
@@ -187,7 +188,7 @@ Permissies worden toegekend aan domein-gebonden groepen (E. domain local). De be
 * Je kan op Windows Server 2019 een disk voorzien een een bestandsysteem en drive letter (toepassen)
 * Je kent het verschil tussen share en NTFS permissies en kan deze ook correct toepassen (onthouden-begrijpen-toepassen)
 * Je kan op Windows 2019 via Server Manager een share aanmaken en configureren (toepassen)
-* Je kan een shared folder opnemen in AD (toepassen)
+* Je kan een shared folder opnemen in AD en deze gebruiken in GPO's (toepassen)
 * Je kan voor gebruikers in AD Home-folders aanmaken op een gedeelde folder met de correcte NTFS-permissies (toepassen)
-* Je kan roaming profiles instellen op AD m.b.v. folder omleiding (toepassen-analyseren)
+* Je kan roaming profiles instellen voor een gebruiker in AD d.m.v. de eigenschappen van de gebruiker aan te passen (toepassen-analyseren)
 * Je kan opzoeken wat er met AGDLP bedoeld wordt en je kan het concept uitleggen aan een leek (begrijpen)

@@ -16,7 +16,7 @@ De aandachtige student kan zien dat er twee *gedeelde* folders aanwezig zijn op 
 
 Deze twee folder zijn **essentieel en noodzakelijk** voor het goed functioneren van de domeincontroller en Active Directory zelf.
 
-IMPORTANT: Het zal duidelijk zijn dat als de sysvol- en de netlogon-folder samen met andere gedeelde folders op een enkele server staan geen goed idee is ... een vergissing of foutje is snel gemaakt.
+IMPORTANT: Het zal duidelijk zijn dat als de sysvol- en de netlogon-folder samen met andere gedeelde folders op één enkele server staan geen goed idee is ... een vergissing of foutje is snel gemaakt.
 Daarom is het aangewezen om gedeelde folders op een NAS (network attached storage) te zetten.
 Een veel gebruikte NAS-oplossing is https://www.freenas.org/[FreeNAS].
 
@@ -28,8 +28,9 @@ We zullen FreeNAS installeren, opnemen in het domein en gedeelde folders aanmake
 * Haal de FreeNAS https://www.freenas.org/download/[ISO] af op
 ** TIP: *No thank you, send me to the Download page please*
 * Maak een nieuwe virtueel machine aan en installeer FreeNAS
-** Geef je machine maximaal twee GB geheugen en minimaal drie schijven van twintig GB elk
+** Geef je machine maximaal twee GB geheugen en (minimaal) twee extra schijven van twintig GB elk
 ** Selecteer enkel de eerste schijf om FreeNAS op te installeren
+** Hang FreeNAS op het host-only netwerk zoals in voorgaande labo's
 ** Dit kan even duren ... geduld
 
 image::images/pic3.png[]
@@ -46,13 +47,16 @@ image::images/pic4.png[]
 * Onder *Network* 
 ** zet de Windows 2019 Domeincontroller als DNS-server
 ** verander het domein naar cosci.be
+* onder *System* 
+** Voeg coscidc1.cosci.be toe als NTP-server en verwijder de andere servers
+** reboot de server (misschien twee keer)
 * Onder *Directory Services*
 ** Kies *AD* en geef de gepaste instellingen mee
 ** Check *Enable*
 ** Controleer dat FreeNAS is opgenomen in het domein
 
 == Storage
-FreeNAS maakt gebruik van het https://www.ixsystems.com/blog/zfs-pools-in-freenas/[ZFS] bestandsysteem. Dit is een copy-on-write bestandsysteem dat by design normaalgezien niet corrupt kan raken (maar zeg nooit ... https://www.youtube.com/watch?v=vxFNBZIAClc[nooit]). 
+FreeNAS maakt gebruik van het https://www.ixsystems.com/blog/zfs-pools-in-freenas/[ZFS] bestandsysteem. Dit is een copy-on-write bestandsysteem dat by design normaal gezien niet corrupt kan raken (maar zeg nooit ... https://www.youtube.com/watch?v=vxFNBZIAClc[nooit]). 
 
 Vooralleer netwerkshares gemaakt kunnen worden, moet er eerst opslagplaats voorzien worden. We hebben FreeNAS geïnstalleerd met drie schijven. Van de drie is er één gebruikt voor het besturingsysteem, de twee andere gaan nu gebruikt worden voor netwerkopslag. 
 
@@ -76,9 +80,9 @@ image::images/pic6.png[]
 * Maak in de share FreeNAS een map MAP1 aan
 * Maak in MAP1 een bestand FILE1 aan zonder inhoud
 * Maak een snapshot onder Storage>Snapshots aan van de dataset FreeNAS-TEST
-* Voeg één lijn toe aan het bestand FILE1
+* Voeg één lijn toe aan het bestand FILE1 en save
 * Maak een volgende snapshot van de dataset
-* Voeg nog een lijn toe aan bestand FILE1
+* Voeg nog een lijn toe aan bestand FILE1 en save
 * Vraag vorige versies op bij de eigenschappen van het bestand
 
 * Verwijder een snapshot en controleer dat er één vorige versie minder is
@@ -113,7 +117,7 @@ image:images/pic8.png[]
 ** In een NAS kunnen meerdere netwerkkaarten geïnstalleerd worden en niet op al deze netwerkkaarten wil je opslag delen met een netwerk. Daarom kies je een concreet IP-adres en poort om iSCSI-communicatie mogelijk te maken of waarop FreeNAS zal luisteren naar iSCSI-aanvragen. In deze setup is er maar één netwerkkaart kies daarom als IP-adres 0.0.0.0 en poort 3260. Dit wil zeggen luisteren voor iSCSI op alle netwerkkaarten.
 image:images/pic9.png[]
 
-* Niet alle machines mogen verbinden aan de iSCSI-storage, daarom gaan we de toegang beperken aan de Windows Server 2019. hiervoor moeten we de 'iSCSI-naam' van de Windows Server 2019 te weten komen:
+* Niet alle machines mogen verbinden aan de iSCSI-storage, daarom gaan we de toegang beperken tot de Windows Server 2019. hiervoor moeten we de 'iSCSI-naam' van de Windows Server 2019 te weten komen:
 ** Server Manager => Tools => iSCSI Initiator => Configuration => Initiator Name
 ** Kopieer deze naam en maak in FreeNAS een initiator aan (Zoek in de documentatie van FreeNAS op wat een IQN is én waarvoor het wordt gebruikt)
 image:images/pic10.png[]
@@ -121,7 +125,7 @@ image:images/pic10.png[]
 * Maak volgende target aan, let op de correct authenticatie.
 image:images/pic11.png[]
 
-* Voeg nu als laatste stap nog "disken" toe aan de target.
+* Voeg nu als laatste stap nog "disken" toe aan de target d.m.v. extends. Vergeet de extend niet "actief" te maken.
 image:images/pic12.png[]
 
 Nadat de extend aangemaakt is, volgt de laatste stap, de Target-Extent association. Click Associated Targets en Add Extent to Target en selecteer Target and Extent van de lijst:
@@ -164,14 +168,15 @@ Denk je dat je een beter schema kan maken, ga ja gang en laat je lector/medestud
 Tip: draw.io
 
 == Wat moet je na dit labo kennen/kunnen
-* Je weet dat een Windows Domein Controller gedeelde folders gebruikt om policies en bestanden naar clients in het domein "te pushen" (begrijpen)
+* Je weet en kan aantonen dat een Windows Domein Controller gedeelde folders gebruikt om policies en bestanden naar clients in het domein "te pushen" (begrijpen)
 * Je kan een virtuele machine aanmaken in VMware met de gepaste instellingen en virtuele hardware (toepassen)
 * Je kan een FreeNAS server opzetten (toepassen)
 * Je kan een client (FreeNAS) opnemen in een Windows domein en pas hiervoor de nodige settings aan (op de client) (toepassen)
-* Je kan een ZFS storage pool met verschillende datasets en zvols aanmaken (begrijpen-toepassen)
+* Je kan een ZFS storage pool met verschillende datasets en zvols aanmaken (begrijpen, toepassen)
 * Je kan de FreeNAS documentatie gebruiken om termen en concepten over FreeNAS/SMB shares/Shadow Copies/... op te zoeken (begrijpen-toepassen)
 * Je kan in FreeNAS een (SMB) gedeelde folder aanmaken en voorzien van de gepaste NTFS-permissies (toepassen-analyseren)
 * Je kan in FreeNAS snapshots nemen van datasets en hiervoor een automatische taak voor aanmaken (begrijpen-toepassen)
+* Je kan in FreeNAS een service activeren (begrijpen, toepassen)
 * Je kan in FreeNAS een iSCSI-share aanmaken en aanspreken/gebruiken op een Windows Server (begrijpen-toepassen)
 * Je weet hoe in FreeNAS het creatieproces gaat voor het aanmaken van een iSCSI-disk (begrijpen-toepassen)
 * Je kan een iSCSI portaal en/of target in FreeNAS voorzien van CHAP authenticatie (CHAP=challence authentication protocol) (toepassen)
