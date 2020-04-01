@@ -220,6 +220,16 @@ In een GPO kan "Block inheritance" ingesteld worden. Hierdoor worden de instelli
 Maak zelf een demo-oefening om dit te testen/demonstreren. Tip: Remove Recycle Bin icon from Desktop.
 
 == Wat moet je na dit labo kennen/kunnen
+
+* Je weet en kan uitleggen/toepassen dat GPO op verschillende niveaus toegepast kunnen worden, nl. domein, site, ou (begrijpen, toepassen)
+* Je weet en kan uitleggen/toepassen dat GPO op verschillende niveaus in een andere volgorde worden toegepast, nl. domein, site, ou (begrijpen, toepassen)
+* Binnen een OU kan je GPO's in de juiste vorlgorde zetten (toepassen)
+* Binnen een domein kan je GPO(s) in de juiste vorlgorde zetten (toepassen)
+* Je kan met behulp van het Internet policy- en preference-regels toepassen (toepassen)
+* Je kan met behulp van het Internet uitleggen wat het verschil is tussen een policy en een preference (begrijpen)
+* Je kan uitzoeken waarom een beleidsregel (policy/preference) niet toegepast is voor een gebruiker/computer (toepassen, analyseren)
 * Je weet en kan het verschil uitleggen tussen de twee delen waaruit een GPO bestaat *Computer Configuration* en *User Configuration* (onthouden)
-* Je weet dat een Computer/User configuration bestaat uit *policies* en *preferences* (onthouden, begrijpen)
-* Je kan opzoeken en uitleggen wat het verschil is tussen Computer/User configuration *policies* en *preferences* (analyseren)
+* Je kan de tools gpresult en gpupdate gebruiken (toepassen)
+* Je kan de RSAT-tools installeren op een Windows 10 machine en deze tools ook correct gebruiken (als administrator of via delegatie) (begrijpen, toepassen)
+* Je kan eenvoudige taken binnen "AD Users en Computers" delegeren naar een AD-gebruiker of een AD-groep (begrijpen, toepassen)
+* Je kent het concepte "Block inheritance" bij een GPO, kan dat uitleggen en toepassen aan de hand van een concreet voorbeeld (toepassen, analyseren)
