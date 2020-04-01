@@ -56,9 +56,9 @@ We doorlopen de wizard verder, en wanneer we de share hebben gemaakt, testen we 
 IMPORTANT: Als je permissies aanpast, moet de gebruiker op de client zich eerst opnieuw aanmelden alvorens deze permissies toegepast worden. Je kan ook subfolders aanmaken met afwijkende permissies. Dit doe je door in de verkenner een map aan te maken, en daar onder **security** de gewenste permissies in te stellen.
 
 == Shared folders in Active Directory
-Je kan netwerkshares ook toevoegen aan Active Directory. Hiervoor kies je in Active Directory Users and Computers voor Action>New>Shared Folder. Hier moet je een naam en een pad meegeven. Als je nadien onderproperties gaat kijken kan je ook keywords toevoegen. Deze keywords kan je gebruiken om te zoeken via de Verkenner.
+Je kan netwerkshares ook toevoegen aan Active Directory. Hiervoor kies je in Active Directory Users and Computers voor Action>New>Shared Folder. Hier moet je een naam en een pad meegeven. Als je nadien onder properties gaat kijken, kan je ook keywords toevoegen. Deze keywords kan je gebruiken om te zoeken via de Verkenner.
 
-Probeer een keyword financial toe te voegen, en kijk daarna of je op de Windows 10 PC de share kan terugvinden via onderstaand menu en het juiste keyword. Daarnaast kan je, eens je shared folder in Active Directory, zit ook dit object gebruiken in Group Policy Objects.
+Probeer een keyword financial toe te voegen, en kijk daarna of je op de Windows 10 PC de share kan terugvinden via onderstaand menu en het juiste keyword. Daarnaast kan je, eens je shared folder in Active Directory zit, ook dit object gebruiken in Group Policy Objects.
 
 image::images/pic7.png[]
 
@@ -69,10 +69,11 @@ image::images/pic7.png[]
 
 === Home folders
 Wanneer een gebruiker zich aanmeldt op een computer, kan hij zijn persoonlijke bestanden opslaan in een home folder (N. basismap). Met zijn persoonlijke bestanden doet een gebruiker wat hij wil. Anderen hebben geen toegang. Een home folder heeft best als naam de naam van de eigenaar en wordt best bewaard op een NTFS-partitie (op FAT-partities kan je een folder niet afschermen van andere gebruikers). Typisch worden ze bewaard als subfolders van dezelfde folder, dus iets als:
-…\Gebruikers
-Gebruiker1
-Gebruiker2
-…
+
+    …\Gebruikers
+    Gebruiker1
+    Gebruiker2
+    …
 Aangezien gebruikers zich op eender welke computer in het domein kunnen aanmelden, moeten we zorgen dat de home folders centraal toegankelijk zijn (d.w.z. ze moeten staan op een server waar alle computers in het domein aan kunnen. In dit geval gaan we de domeinserver gebruiken als locatie voor onze home folders, maar in principe kan het ook eender welke andere server in het domein zijn. Lees verder ... .
 
 ==== Gedeelde map maken
@@ -80,11 +81,13 @@ Log in als Administrator op de domein controller, en maak een nieuwe map **HomeF
 
 image::images/pic8.png[]
 
-In deze map zullen alle gebruikersprofielen opgeslagen worden (in een aparte directory per gebruiker). Rechterklik op de map M\:\\HomeFolders, en ga naar Properties, Security, Advanced. De lijst van machtigingen die je hier ziet staan. Voeg de volgende permissies toe voor de groep **Everyone** (klik op Show advanced permissions om alle permissies te zien):
--	Traverse folder/execute file
--	List folder/read data
--	Read attributes
--	Create folders/append data
+In deze map zullen alle gebruikersprofielen opgeslagen worden (in een aparte directory per gebruiker). Rechterklik op de map M:\HomeFolders, en ga naar Properties, Security, Advanced. De lijst van machtigingen die je hier ziet staan. Voeg de volgende permissies toe voor de groep **Everyone** (klik op Show advanced permissions om alle permissies te zien):
+
+* Traverse folder/execute file
+* List folder/read data
+* Read attributes
+* Create folders/append data
+
 Zorg er ook voor dat deze permissies toegepast worden op **This folder only**. Dit zorgt er voor dat iedereen de HomeFolders-map kan bekijken, maar dat niemand automatisch rechten krijgt in de onderliggende mappen.
 
 ==== De home folder instellen

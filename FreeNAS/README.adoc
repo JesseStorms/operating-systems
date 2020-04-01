@@ -52,7 +52,7 @@ image::images/pic4.png[]
 ** Controleer dat FreeNAS is opgenomen in het domein
 
 == Storage
-FreeNAS maakt gebruik van het ZFS bestandsysteem. Dit is een copy-on-write bestandsysteem dat by design normaalgezien niet corrupt kan raken (maar zeg nooit ... https://www.youtube.com/watch?v=vxFNBZIAClc[nooit]). 
+FreeNAS maakt gebruik van het https://www.ixsystems.com/blog/zfs-pools-in-freenas/[ZFS] bestandsysteem. Dit is een copy-on-write bestandsysteem dat by design normaalgezien niet corrupt kan raken (maar zeg nooit ... https://www.youtube.com/watch?v=vxFNBZIAClc[nooit]). 
 
 Vooralleer netwerkshares gemaakt kunnen worden, moet er eerst opslagplaats voorzien worden. We hebben FreeNAS geïnstalleerd met drie schijven. Van de drie is er één gebruikt voor het besturingsysteem, de twee andere gaan nu gebruikt worden voor netwerkopslag. 
 
