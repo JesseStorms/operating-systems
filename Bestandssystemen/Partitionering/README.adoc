@@ -1,0 +1,11 @@
+= Partitionering
+
+Op https://nl.wikipedia.org/wiki/Partitie_(informatica)[Wikipedia] is te lezen: "Een harde schijf partitioneren is het verdelen van die schijf in meerdere logische eenheden ... . *Partitie* is de gebruikelijke aanduiding bij Windows en Linux, terwijl in besturingssystemen als BSD, Solaris of GNU Hurd de benaming *slice* wordt gebruikt voor dergelijke logische eenheid."
+
+In de verschillende logische eenheden, partities of slices kunnen dan verschillende bestandssystemen geïnstalleerd worden. 
+
+== GPT: dé nieuwe manier van partitioneren
+De partitietabel houdt onder andere bij welke partities aanwezig zijn op de harde schijf en welke aaneengesloten regio van LBA's van de harde schijf tot welke partitie behoort.
+
+Er bestaan twee verschillende methodes/protocollen om deze partitietabel weg te schrijven op de harde schijf: MBR en GPT. MBR is een verouderde techniek en zal niet worden besproken in dit labo.
+
