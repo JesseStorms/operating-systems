@@ -1,4 +1,4 @@
-= Partitionering
+= Harde schijf partitioneren
 Rudi Swennen
 :doctype: article
 :encoding: utf-8
@@ -42,7 +42,7 @@ De eerste blok van de disk bevat MBR informatie, de twee laatste bytes van het b
 
 De tweede blok bevat de primaire GPT header. Een backup-kopie van deze GPT header is terug te vinden als allerlaatste blok van disk, mocht de primaire GTP header corrupt geraken. 
 
-Onderstaande tabel maakt verklaart de betekenis van elke byte in deze header. 
+Onderstaande tabel verklaart de betekenis van elke byte in deze GPT header. 
 
 .GPT header formaat of structuur
 |===
