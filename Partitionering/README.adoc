@@ -38,9 +38,11 @@ Onderstaande figuur laat zien hoe de partitieinformatie wordt weggeschreven op e
 .GUID partitition tabel layout op de disk
 image::https://linoxide.com/wp-content/uploads/2012/08/GPT_scheme.jpg[]
 
-De eerste blok van de disk bevat MBR informatie, de twee laatste bytes van het blok bevatten de MBR signature 0xAA55 (weggeschreven in little endian op de disk als `AA` `55`).
 
-De tweede blok bevat de primaire GPT header. Een backup-kopie van deze GPT header is terug te vinden als allerlaatste blok van disk, mocht de primaire GTP header corrupt geraken. 
+Het eerste blok van de disk bevat een protective master boot record (MBR), de twee laatste twee bytes van dit blok bevatten de MBR signature 0xAA55 (weggeschreven op de schijf in little endian als `AA` `55`). 
+
+=== GPT header 
+Het tweede blok bevat de primaire GPT header. Een backup-kopie van deze GPT header is terug te vinden als allerlaatste blok van de disk, mocht de primaire GTP header corrupt geraken. 
 
 Onderstaande tabel verklaart de betekenis van elke byte in deze GPT header. 
 
@@ -64,15 +66,37 @@ Onderstaande tabel verklaart de betekenis van elke byte in deze GPT header.
 |92 (0x5C)| * |Reserved; must be zeroes for the rest of the block 
 |===
 
-== Deep dive
-* Installeer een FreeBSD VM 
-* Installeer radiff2 met `pkg install radiff2`
-* Maak een leeg disk-bestand aan van 50Mb met het commando `tuncate -s 50m disk.img`
-* Maak een disk-apparaat of disk device aan dat het disk-bestand gebruikt om data in weg te schrijven
-** `mdconfig -f disk.img`
-** er wordt een nieuwe disk-device-file aangemaakt in /dev met de naam mdX. Welke waarde X aanneemt is terug te vinden in het resultaat van voorgaand commando
-** deze device-file 
+==== Vragen
+Gebruik het commando `hexdump -C` op een (nieuwe) disk dump van /dev/da1 om onderstaande vragen te beantwoorden (denk aan de man-pagina ...).
 
+* Wat is de signature van de GPT header van de harde schijf? 
+* Bereken de maximale grootte van een partitie op deze disk (gebruik de "usable LBA's" hiervoor)
+* Wat is de grootte van één enkele "partition entry"?
+* Op welk adres begint "de lijst of partition entries"?
+* Hoeveel partities kunnen er op deze disk momenteel voorzien worden?
+* Bereken hoeveel partities er theoretisch mogelijk zijn op een GTP gepartitioneerde harde schijf? 
+
+=== GPT array of partition entires
+Vlak na de GPT header volgt er een lijst van GPT partition entries. Iedere entrie geeft meer informatie over een partitie op de harde schijf. 
+
+.Structuur van een GPT partition entry 
+|===
+|Offset |Length|Contents
+|0 (0x00)  | 16 bytes | Partition type GUID (mixed endian)
+|16 (0x10) | 16 bytes |	Unique partition GUID identifier (mixed endian)
+|32 (0x20) | 8 bytes | First LBA (little endian)
+|40 (0x28) | 8 bytes | Last LBA (inclusive, usually odd)
+|48 (0x30) | 8 bytes | Attribute flags 
+|56 (0x38) | 72 bytes | Partition name
+|===
+
+De eerste entry van de partitie entry array bevat informatie over de eerste en enige partitie op de harde schijf. 
+
+==== Vragen 
+Gebruik bovenstaande tabel om antwoorden te vinden op onderstaande vragen.
+
+* Hoe groot in blokken én bytes is de eerste en enige partitie van de harde schijf? 
+* Op welk adres start het eerste blok van de partitie?
 
 = Referenties
 * Wikipedia
