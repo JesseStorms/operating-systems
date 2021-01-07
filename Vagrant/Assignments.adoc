@@ -1,1 +1,3 @@
-== Exercises
+== assignment 1
+
+* Vagrant run svirtual machines headless. Modify the Vagrant file to 
