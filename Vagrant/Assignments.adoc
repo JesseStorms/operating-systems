@@ -1,3 +1,21 @@
-== assignment 1
+= Assignments
 
-* Vagrant run svirtual machines headless. Modify the Vagrant file to 
+* By default Vagrant runs virtual machines headless. Modify the Vagrantfile to display the GUI when booting the machine.
+** Modify the Vagrant file
+** `vagrant reload`
+
+* Customize the amount of memory on the VM to 512 MB
+** Modify the Vagrantfile
+** `vagrant reload`
+** Log in via the GUI
+
+* Vagrant provides a mechanism to share files between the host and the VM, called synced folder
+** Create a file `hello.txt` on the **host** in ~/vagrant/debian10
+** Add "Hello World" in the hello.txt file.
+** Modify the Vagrantfile to "sync" the directory containing the Vagrantfile to /vagrant on the VM 
+** `vagrant reload`
+** Display the contents of the file hello.txt on the VM with the `cat` command
+
+* Explain in detail what does the command `vagrant suspend` and `vagrant resume` do?
+
+* 
