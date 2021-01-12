@@ -11,7 +11,7 @@
 
 * Vagrant provides a mechanism to share files between the host and the VM, called synced folder
 ** Create a file `hello.txt` on the **host** in ~/vagrant/debian10
-** Add "Hello World" in the hello.txt file.
+** Add "Hello World" in the hello.txt file
 ** Modify the Vagrantfile to "sync" the directory containing the Vagrantfile to /vagrant on the VM 
 ** `vagrant reload`
 ** Display the contents of the file hello.txt on the VM with the `cat` command
@@ -21,7 +21,7 @@
 ** `vagrant status`
 ** `vagrant resume`
 
-* The Vagrantfile contains details of the virtual environment. Use the following code to create an empty file hello.txt in /tmp. 
+* The Vagrantfile contains details of the virtual environment. Use the following code to create an empty file hello.txt in /tmp
 
     config.vm.provision "shell", inline: <<-SHELL
        touch /tmp/hello.txt
@@ -31,17 +31,18 @@
 ** Destroy the VM
 ** Create a new on and verify again if the file is there
 ** Read logs and maybe some Google pages
+*** Provisioning is done automatically during the first `vagrant up`, after the first `vagrant up` ... 
 
 * Log in the VM via `vagrant ssh`
-** Use the command `id` to identify your identity.
-*** You should be user *vagrant* on the VM.  
-** Who is the owner of the file /tmp/hello.txt?
-*** This should be *root*.
+** Use the command `id` to identify your identity
+*** You should be user *vagrant* on the VM
+** Who is the owner of the file /tmp/hello.txt
+*** This should be *root*
 ** So vagrant has to possibility to "become root" on the VM and install software
 
-* Press `vagrant -h` and `vagrant -h --debug` on the host machine and read the messages.
+* Press `vagrant -h` and `vagrant -h --debug` on the host machine and read the messages
 
-* The VM vagrant creates is called "debian10". Change the hostname of the VM to webserver.:
+* The VM vagrant creates is called "debian10", change the hostname of the VM to webserver:
 
 * Use the SHELL provisioner to:
 ** update all installed software to the latest version
@@ -54,3 +55,29 @@
      apt install nginx -y
      service nginx status
    SHELL
+
+* Forward (tcp-)port 80 on the guest VM to (tcp-)port 8080 on the host
+** Modify the Vagrantfile accordingly
+** Test if the port forward was succesfull
+
+* Create a subdirectory in /vagrant called www and copy the files from /var/www/html to /vagrant/www
+** Remove the directory html in /var/www on the guest
+
+  sudo rm -Rf /var/www/html
+
+** Create a symbolic link (shortcut) from /vagrant/www to /var/www/html on the guest
+   
+  sudo ln -s /vagrant/www /var/www/html
+
+** Surf to 127.0.0.1:8080 on the host, is the default nginx page displayed?
+** Modify the index-file in the www directory (the synced folder to /vagrant/www on the guest). Verify the modifications by surfing to 127.0.0.1:8080 again.
+*** An example of a modification is deleting everything in the file, except one word eg. NGINX.
+
+* Put the two extra commands from the previous exercise to the provision script portion of the Vagrantfile
+** Keep in mind the provisioning is run by elevated privileges, a.k.a. root privileges
+** Verify if the provisioning script is working, by destroying the guest and recreate a new one
+
+   vagrant destroy -f
+   vagrant up
+
+*
