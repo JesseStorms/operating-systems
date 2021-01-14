@@ -13,6 +13,7 @@
 ** Create a file `hello.txt` on the **host** in ~/vagrant/debian10
 ** Add "Hello World" in the hello.txt file
 ** Modify the Vagrantfile to "sync" the directory containing the Vagrantfile to /vagrant on the VM 
+*** `config.vm.synced_folder ".", "/vagrant", disabled: false`
 ** `vagrant reload`
 ** Display the contents of the file hello.txt on the VM with the `cat` command
 
@@ -81,3 +82,5 @@
    vagrant up
 
 *
+
+image::rsync.png[]
