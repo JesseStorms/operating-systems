@@ -81,6 +81,17 @@
    vagrant destroy -f
    vagrant up
 
-*
+* Modify the Vagrantfile to "sync" the directory containing the Vagrantfile to /vagrant on the VM using the rsync method
 
-image::rsync.png[]
+image::rsync.PNG[]
+
+** Create a file KROEPOEK1 in /vagrant on the guest, is it copied to the host?
+** Create a file KROEPOEK2 in the directory containing the Vagrantfile, is it copied to the gust?
+*** The rsync synced folder does a one-time one-way sync from the machine running to the machine being started by Vagrant.
+
+* Read the following https://www.vagrantup.com/docs/multi-machine[documentation on multi-machine in Vagrant]
+** Explain the following statement from the documentation: ** Vagrant enforces ordering outside-in ** 
+** Remove the guest VM with `vagrant destroy -f`
+** Open the Vagrant file and define two machines: dev and prod
+
+* Vagrant does not only support Linux guests, but also Windows for example.

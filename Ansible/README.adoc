@@ -1,0 +1,35 @@
+= Ansible
+Ansible is een relatief makkelijke configuration management en orchestration tool.
+
+== Lessons
+Bekijk de volgende videos van https://sysadmincasts.com:
+
+* https://sysadmincasts.com/episodes/43-19-minutes-with-ansible-part-1-4[video 1]
+* https://sysadmincasts.com/episodes/45-learning-ansible-with-vagrant-part-2-4[Video 2]
+
+Doe punt 1 t.e.m. 5 in deze https://www.learnitguide.net/2018/06/ansible-tutorial-for-beginners-online.html[tekst] en lees om af te sluiten deze https://linuxhint.com/ansible-tutorial-beginners/[tekst].
+
+== Opdrachten
+Kijk **niet** naar de oplossingen **alvorens eerst zelf** de oegeningen gemaakt te hebben of toch grondig geprobeerd.
+
+
+* Maak een Vagrant multimachine configuratie met drie machines één master node genaamd master (generic/freebsd12) en twee slave nodes (generic/debian10) genaamd slave1 en slave2.
+
+    Vagrant.configure("2") do |config|
+    config.vm.define "master" do |master|
+        master.vm.box = "generic/freebsd12"
+        master.vm.hostname= "master"
+    end
+    config.vm.define "node1" do |node1|
+        node1.vm.box = "generic/debian10"
+        node1.vm.hostname= "node1"
+    end
+    config.vm.define "node2" do |node2|
+        node2.vm.box = "generic/debian10"
+        node2.vm.hostname= "node2"
+    end
+    config.vm.provider "vmware_desktop" do |vb|
+        vb.gui = true
+        vb.memory = "512"
+    end
+    end
