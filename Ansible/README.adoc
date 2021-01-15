@@ -1,19 +1,21 @@
 = Ansible
-Ansible is een relatief makkelijke configuration management en orchestration tool.
+Ansible is a configuration management and orchestration tool. It works as an IT automation engine.
+
+Ansible can be run directly from the command line without setting up any configuration files. You only need to install Ansible on the control server or node. It communicates and performs the required tasks using SSH.
 
 == Lessons
-Bekijk de volgende videos van https://sysadmincasts.com:
+Watch the following videos from https://sysadmincasts.com:
 
 * https://sysadmincasts.com/episodes/43-19-minutes-with-ansible-part-1-4[video 1]
 * https://sysadmincasts.com/episodes/45-learning-ansible-with-vagrant-part-2-4[Video 2]
 
-Doe punt 1 t.e.m. 5 in deze https://www.learnitguide.net/2018/06/ansible-tutorial-for-beginners-online.html[tekst] en lees om af te sluiten deze https://linuxhint.com/ansible-tutorial-beginners/[tekst].
+Do 1 to 5 in https://www.learnitguide.net/2018/06/ansible-tutorial-for-beginners-online.html[this text] and read to finish https://linuxhint.com/ansible-tutorial-beginners/[text].
 
 == Opdrachten
 Kijk **niet** naar de oplossingen **alvorens eerst zelf** de oegeningen gemaakt te hebben of toch grondig geprobeerd.
 
 
-* Maak een Vagrant multimachine configuratie met drie machines één master node genaamd master (generic/freebsd12) en twee slave nodes (generic/debian10) genaamd slave1 en slave2.
+* Maak een Vagrant multimachine configuratie met drie machines: één master node genaamd master (generic/freebsd12) en twee slave nodes (generic/debian10) genaamd slave1 en slave2.
 
     Vagrant.configure("2") do |config|
     config.vm.define "master" do |master|
@@ -33,3 +35,63 @@ Kijk **niet** naar de oplossingen **alvorens eerst zelf** de oegeningen gemaakt 
         vb.memory = "512"
     end
     end
+
+* Installeer ansible op de master machine
+
+   pkg update
+   pkg install py37-ansible sshpass
+
+* Verifieer of ansible goed is geïnstalleerd
+
+    ansible --version
+    ansible-playbook --version
+
+* You need to specify an inventory of hosts or machines  ansible will use to run ad-hoc commands of playbooks on. The inventory file can contain the DNS names of the machines or the IP addresses. Because DNS is not configured in this exercise IP addresses will be used
+** Modify your Vagrant file so the master machine has IP 10.10.10.10, node1 has IP 10.10.10.20 and node2 has IP 10.10.10.21.
+
+    Vagrant.configure("2") do |config|
+    config.vm.define "master" do |master|
+        master.vm.box = "generic/freebsd12"
+        master.vm.hostname= "master"
+        master.vm.network "private_network", ip: "10.10.10.10"
+    end
+    config.vm.define "node1" do |node1|
+        node1.vm.box = "generic/debian10"
+        node1.vm.hostname= "node1"
+        node1.vm.network "private_network", ip: "10.10.10.20"
+    end
+    config.vm.define "node2" do |node2|
+        node2.vm.box = "generic/debian10"
+        node2.vm.hostname= "node2"
+        node2.vm.network "private_network", ip: "10.10.10.21"
+    end
+    config.vm.provider "vmware_desktop" do |vb|
+        vb.gui = true
+        vb.memory = "512"
+    end
+    end
+
+
+* On the master node make a subdirectory ansible and create a file inventory within the newly created directory
+
+  mkdir ansible
+  touch inventory
+
+* Read the https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#inventory-basics-formats-hosts-and-groups[documentation] and create a static inventory file in YAML format containing the IP addresses of node1 and node2
+
+  all:
+    hosts:
+      10.10.10.20
+      10.10.10.21
+
+* Use ssh to connect to the two node machines in order to verify the ssh connection is working (**yes** to continue)
+
+* Use the Ping-module to "ping" to the hosts using the following command: `ansible -i ./inventory -m ping all --ask-pass`
+
+* Switch in the previous command the ping module with  the setup module and read the output
+
+* Ansible ad hoc commands are one-liners designed to achieve a very specific task. To put simply, Ansible ad hoc commands are one-liner Linux shell commands and playbooks are like a shell script, a collective of many commands with logic.
+
+Ansible ad hoc commands come handy when you want to perform a quick task.
+
+We have collected 17+ examples which will help you to get started with Ansible AD HOC commands. It is your Ansible AD HOC command Cheat Sheet or Ansible Cheat Sheet.
