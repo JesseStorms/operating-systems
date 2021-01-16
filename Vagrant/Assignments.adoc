@@ -93,6 +93,11 @@ image::rsync.PNG[]
 
 ** Explain the following statement from the documentation: ** Vagrant enforces ordering outside-in ** 
 ** Remove the guest VM with `vagrant destroy -f`
+** Create a new Vagrant project on the host:
 
-* Open the Vagrant file and define two machines: dev and prod
+ cd ..
+ mkdir multimachine
+ cd multimachine
+
+** Create a new Vagrant file and define two machines: dev and prod
 ** Give the twp machines the following IP addresses, dev 10.10.10.10 and prod 10.10.10.20.
