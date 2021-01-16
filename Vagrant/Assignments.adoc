@@ -101,3 +101,13 @@ image::rsync.PNG[]
 
 ** Create a new Vagrant file and define two machines: dev and prod
 ** Give the twp machines the following IP addresses, dev 10.10.10.10 and prod 10.10.10.20.
+
+== Learning Goals
+* Know how to create a multinode Vagrant file
+* Know how to assign an IP address to the machines on a private network
+* Know how to sync files between host and guests
+* Know how to forward ports from host to guests
+* Know how to execute a simple script during the first boot of the guest
+* Know how to execute a simple script it the guest is already provisioned
+* Know the permissions of the user during provisioning on the guest
+* Know how to search for new boxes

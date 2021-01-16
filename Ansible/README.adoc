@@ -1,9 +1,25 @@
 = Ansible
+
+Ansible automates system administration tasks.  In Ansible, **a play is a list of tasks to be executed on a set of hosts**.  The tasks can be chosen from the available modules.  Multiple plays are organized in a playbook. 
+
+The tasks in a play are executed sequentially. Handlers are tasks which are triggered by ”normal” tasks, and are executed only once at the end of the play which triggered the handler.
+
+You will learn how to use Ansible modules, which arguments are required and which are optional to each module. How these modules are packed together to playbooks.
+
+Ansible can be used intwo methodes:
+
+* the ad hoc methode by using individual modules
+* the playbook method by using combined modules in one or more plays 
+
+So a play is an ordered set of tasks executed against hosts. These managed or targetted hosts of the play can be on premise or in the cloud.  All you need to be able to manage a system with Ansible, is ssh access.
+
 Ansible is a configuration management and orchestration tool. It works as an IT automation engine.
 
 Ansible can be run directly from the command line without setting up any configuration files. You only need to install Ansible on the control server or node. It communicates and performs the required tasks using SSH.
 
 == Lessons
+Read the introduction on Ansible on https://docs.ansible.com/ansible/latest/user_guide/quickstart.html[this] site. 
+
 Watch the following videos from https://sysadmincasts.com:
 
 * https://sysadmincasts.com/episodes/43-19-minutes-with-ansible-part-1-4[video 1]
@@ -81,12 +97,23 @@ Kijk **niet** naar de oplossingen **alvorens eerst zelf** de oegeningen gemaakt 
 
   all:
     hosts:
-      10.10.10.20
-      10.10.10.21
+      10.10.10.10:
+    children:
+      nodes:
+        hosts:
+          10.10.10.20:
+          10.10.10.21:
+
+** Verify the listed hosts
+  
+  ansible --list-hosts -i inventory all
+  ansible --list-hosts -i inventory ungrouped
+  ansible --list-hosts -i inventory nodes
+  ansible --list-hosts -i inventory nodes,ungrouped
 
 * Use ssh to connect to the two node machines in order to verify the ssh connection is working (**yes** to continue)
 
-* Use the Ping-module to "ping" to the hosts using the following command: `ansible -i ./inventory -m ping all --ask-pass`
+* Use the Ping-module to "ping" to the hosts using the following command: `ansible -i ./inventory -m ping nodes --ask-pass`
 
 * Switch in the previous command the ping module with  the setup module and read the output
 
@@ -95,11 +122,11 @@ Ad hoc commands are one-liners designed to achieve a very specific task. To put 
 
 Ansible ad hoc commands come handy when you want to perform a quick task.
 
-To run an ad hoc command, the command must have the following syntax:
+To run an *ad hoc command*, the command must have the following syntax:
 
-    ansible -i inventory-file <host-pattern> [options]
-
-For example, this command should be written as follows:
+//    ansible -i inventory-file <host-pattern> [options]
+//
+// For example, this command should be written as follows:
 
     ansible -i inventroy-file webservers -m <modulename> -a <arguments to the module>
 
@@ -107,6 +134,58 @@ A single ansible ad hoc command can have multiple options. -m and -a are one amo
 
 * Write an ansible ad hoc command to check the uptime on node 1 and 2
 
-    ansible -i inventory all -m shell -a uptime -k
+    ansible -i inventory nodes -m shell -a uptime -k
 
-* 
+* Sometimes it is necessary to become "root"during the installation or configuration of the system. Execute the following commands and explain their working:
+
+  ansible -i inventory nodes -m shell -a id -k
+  ansible -i inventory nodes -m shell -a id -k -b
+  ansible -i inventory nodes -m shell -a id -k -b -K
+
+* Create a UNIX user using the ansible user module
+
+  ansible -i inventory nodes -m user -a "name=student1 createhome=yes" -k -b -K
+
+  * You can obtain a list of available modules using `ansible-doc -l`
+  ** How many modules are include? 
+
+  * Use ansible-doc to figure out how to use the copy module: `ansible-doc copy`
+
+* Another  way  to  run  Ansible  is  by  using  Playbooks,  in  playbook-mode.   A  playbookby  itself  is  a  plain-text  YAML  file  that  describes  the  desired  end  state  of  something.Playbooks contain plays, plays contain tasks and tasks call one or more modules.  At theend of a play the actions (tasks) in the handler are executed if they were called upon ortriggered by tasks.  Playbooks can become very complex, but we’ll start off simple. 
+Read this https://www.ansible.com/blog/getting-started-writing-your-first-playbook[text] and be sure you know what a playbook is. Otherise "Google is your friend"
+** Write your first playbook named playbook.yml containing:
+*** one play with name "Play1"
+*** as target the host group "nodes"
+*** One task named "Ping" using the ping module
+
+    ---
+    - name: Play1
+      hosts: nodes
+      tasks:
+      - name: Ping
+        ping:
+
+* Extend your playbook with another, play Play2 which installs nginx on the host group nodes
+
+  [vagrant@master ~/ansible]$ bat playbook.yml
+    1   │ ---
+    2   │ - name: Play1
+    3   │   hosts: nodes
+    4   │   tasks:
+    5   │   - name: Ping
+    6   │     ping:
+    7   │
+    8   │ - name: Play2
+    9   │   hosts: nodes
+    10  │   become: yes
+    11  │   tasks:
+    12  │   - name: Install nginx
+    13  │     apt:
+    14  │       name: nginx
+    15  │       update_cache: yes
+    16  │       state: present
+    17  │   - name: Start service nginx, if not started
+    18  │     service:
+    19  │       name: nginx
+    20  │       state: started
+  [vagrant@master ~/ansible]$

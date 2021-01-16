@@ -51,7 +51,7 @@
 * Update and upgrade the Linux system. Only then install and tun the software *htop*
 
   Google is your friend :-)
-  
+
 * Exit and halt the virtual environment
 
   exit
