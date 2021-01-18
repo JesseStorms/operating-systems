@@ -213,10 +213,10 @@ An Ansible playbook is run via the command `ansible-playbook <options> playbook-
 
 Read this https://www.ansible.com/blog/getting-started-writing-your-first-playbook[text] and be sure you know what a playbook is. Otherise "Google is your friend"
 
-** Write your first playbook named playbook.yml containing:
-*** one play with name "Play1"
-*** as target the host group "nodes"
-*** One task named "Ping" using the ping module
+* Write your first playbook named playbook.yml containing:
+** one play with name "Play1"
+** as target the host group "nodes"
+** One task named "Ping" using the ping module
 
     ---
     - name: Play1
