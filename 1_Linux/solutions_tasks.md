@@ -96,11 +96,11 @@
 	* echo olionhjaqwxcs > rand_file_2
 	* cat rand* > third_file
 * Give your VM an extra HDD of 4GB. Use lsblk to view the disk-path (/dev/sdb for instance). Format the disk with the command mkfs with an ext4 filesystem.
-	*  su - en root paswoord
+	*  su - and root password
 	*  lsblk => /dev/sdb
 	*  mkfs.ext4 /dev/sdb
 * Create a new folder /mnt/newlyaddHDD and mount the HDD in this folder with mount /dev/sdX /mnt/newlyaddHDD. Verify with df -h.
-	* su - en root paswoord
+	* su - and root password
 	* mkdir /mnt/newlyaddHDD
 	* mount /dev/sdb /mnt/newlyaddHDD
 	* df -h
