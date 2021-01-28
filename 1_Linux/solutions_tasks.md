@@ -1,4 +1,4 @@
-## Oplossing Taak 1
+# Solutions Tasks
 * Create the following files and directories in your homedir and give them correct permissions:
 
 		 -rwxrwxrwx  1 bob ldapusers    0 2005-02-14 02:48 file1
