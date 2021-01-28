@@ -1,4 +1,4 @@
-# Computernetwerken 1: Task 1
+#Tasks
 
 ## Introduction
 The purpose of this assignment is to get familiar with operating a Linux system from the command line.
