@@ -95,6 +95,7 @@ Processen kunnen dus opgedeeld worden in:
 Het proces *init* is de "moeder van alle processen op een Unix gebaseerd besturingssysteem. Dit is het eerste proces dat uitgevoerd wordt nadat het systeem is opgestart en dit proces beheert alle andere processen op het systeem. 
 
 *OPDRACHT 5*:
+
 * Zoek uit wat het pid is van het proces met de naam init. 
 * Gebruik `echo $$` en `echo $PPID` om de pid en ppid te weten te komen van de huidige shell waarin je aan het werken bent
 
