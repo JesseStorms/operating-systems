@@ -21,7 +21,7 @@ Zorg dat de VM een netwerkkaart heeft waarmee gecommuniceerd kan worden tussen d
 
 Koppel het ISO-bestand met de Windows-installatie aan de virtuele machine en start de machine. Vul géén productsleutel in. Je installatie zal na een tijd vervallen, maar we kunnen dit lang genoeg rekken tot na het examen… .
 
-Net voordat je licentie verloopt kan je wel Windows “rearmen”, wat wil zeggen dat je je evaluatieperiode verlengt. Dat kan je een aantal keer doen, totdat de evaluatieperiode verstreken is. Meer informatie over het verlengen van de licentiesleutel vind je op de https://petri.com/how-to-extend-windows-server-evaluation[Microsoft Support-website]. 
+Net voordat je licentie verloopt kan je wel Windows “rearmen”, wat wil zeggen dat je je evaluatieperiode verlengt. Dat kan je een aantal keer doen, totdat de evaluatieperiode verstreken is. Meer informatie over het verlengen van de licentiesleutel vind je op deze https://petri.com/how-to-extend-windows-server-evaluation[website]. 
 
 Een alternatief is om een legale productcode aan te vragen bij Microsoft via de Intranet website van UCLL. Via deze website kan je gratis Microsoft-software downloaden, waaronder allerlei edities van Windows. Eens je via deze website een productsleutel gekregen hebt, kan je die eenvoudigweg ingeven in de virtuele machine.
 
