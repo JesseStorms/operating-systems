@@ -244,7 +244,7 @@ Maak een scriptje dat het wachtwoord van een disabled gebruiker instelt op een v
 * Je weet en kan aan de hand van een duidelijk schema uitleggen wat een domein tree en domein forest is (onthouden, begrijpen)
 * Je weet en kan uitleggen wat een OU is (onthouden, begrijpen)
 * Je kan OU's aanmaken in AD DS (toepssen)
-* Je kan gebruikers en groepen aamaken in AD DS (toeapssen)
+* Je kan gebruikers en groepen aamaken in AD DS (toepassen)
 * Je kan de eigenschappen van gebruikers en groepen binnen AD DS aanpassen (begrijpen, toepassen)
 * Je weet en kan lokaal en gobaal (domein) op een Windows 10 machine inloggen (begrijpen en toepassen)
 * Je kan uitleggen a.d.h.v de Windows ISE wat een PowerShell script doet en hoe het werkt (toepassen en analyseren)
