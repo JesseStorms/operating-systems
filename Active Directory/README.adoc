@@ -190,7 +190,6 @@ En voeg IT-Admins als een groep toe aan Wifi-users. Voeg jezelf ook toe aan de I
 Volgend script gaat na of de OUs correct zijn aangemaakt.
 
 [source,powershell]
----
 $BaseDN = 'DC=cosci,DC=be'
 $OUs = @(
 "ou=Employees",
@@ -208,9 +207,8 @@ $OUs | ForEach-Object {
 $RES = $(if (Get-ADOrganizationalUnit -Filter "distinguishedName -eq '$_,$BaseDN'") {"[PASS]"} else {"[FAIL]"})
 Write-Host "$RES $_,$BaseDN"
 }
----
 
-Volgend script gaat na of de groupen correct zijn aangemaakt en de lidmaatschappen kloppen.µ
+Volgend script gaat na of de groupen correct zijn aangemaakt en de lidmaatschappen kloppen.
 
 [source,powershell]
 $BaseDN = 'cn=Users,DC=cosci,DC=be'
@@ -244,7 +242,7 @@ Bij systeembeheer komen altijd repetititieve taakjes kijken, en dat is bij Windo
 Ontwikkel eerst en vooral een scriptje waarmee je 1 user kan aanmaken, waaraan je de opties voornaam en naam meegeeft. De gebruikersnaam wordt automatisch ingesteld op `voornaam.familienaam`.
 
 
----
+[source,powershell]
     #filename add_user.ps1
     $voornaam=$args[0]
     $achternaam=$args[1]
@@ -252,13 +250,13 @@ Ontwikkel eerst en vooral een scriptje waarmee je 1 user kan aanmaken, waaraan j
     $SecurePassword = $paswoord | ConvertTo-SecureString -AsPlainText -Force
     New-ADUser -Name "$voornaam $achternaam" -SamAccountName "$voornaam.$achternaam" -AccountPassword $SecurePassword -Enabled $true
 
----
+
 
 === Veel users aanmaken
 In het labo vind je een Excel-bestand met een heleboel namen. De bedoeling is dat je deze namen allemaal automatisch inleest en de gebruikers eruit aanmaakt.
 
----
 
+[source,powershell]
     Get-Content .\names.csv |  foreach-object {
     $Split = $_ -split ' '
     $voornaam=$Split[1] 
@@ -266,12 +264,11 @@ In het labo vind je een Excel-bestand met een heleboel namen. De bedoeling is da
     .\add_user.ps1 $voornaam $achternaam
     }
 
----
 
 === Password resets
 Maak een scriptje dat het wachtwoord van een disabled gebruiker instelt op een vooraf bepaald paswoord (p@ssw0rd) en de gebruiker terug enabled. De gebruiker moet zijn wachtwoord aanpassen de volgende keer dat hij aanmeldt.
 
----
+[source,powershell]
     $paswoord="p@ssw0rd"
     $SecurePassword = $paswoord | ConvertTo-SecureString -AsPlainText -Force
     Write-Host "Volgende gebruikers zijn DISABLED"
@@ -283,7 +280,6 @@ Maak een scriptje dat het wachtwoord van een disabled gebruiker instelt op een v
     Write-Host "Gebruiker $Gebruiker zijn/haar paswoord is reset naar **p@ssw0rd** en de gebruiker is terug actief" 
     Get-ADUser -Filter  {Enabled -eq $True} | Select-Object -Property SamAccountName, Enabled |  ft
 
----
 
 == Wat moet je na dit labo minstens kennen/kunnen
 * Je weet en kan uitleggen wat een SHA1-checksum is en waarvoor het gebruikt kan worden (onthouden en begrijpen)
