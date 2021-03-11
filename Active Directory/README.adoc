@@ -189,6 +189,7 @@ En voeg IT-Admins als een groep toe aan Wifi-users. Voeg jezelf ook toe aan de I
 
 Volgend script gaat na of de OUs correct zijn aangemaakt.
 
+[source,powershell]
 ---
 $BaseDN = 'DC=cosci,DC=be'
 
@@ -215,6 +216,7 @@ Write-Host "$RES $_,$BaseDN"
 
 Volgend script gaat na of de groupen correct zijn aangemaakt en de lidmaatschappen kloppen.µ
 
+[source,powershell]
 ---
 $BaseDN = 'cn=Users,DC=cosci,DC=be'
 
