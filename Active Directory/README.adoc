@@ -187,6 +187,62 @@ Maak daarnaast in de OU=Users ook de volgende groepen aan.
 
 En voeg IT-Admins als een groep toe aan Wifi-users. Voeg jezelf ook toe aan de IT-admins groep en controleer of je daarmee ook toegevoegd bent aan de Wifi-users groep.
 
+Volgend script gaat na of de OUs correct zijn aangemaakt.
+
+---
+$BaseDN = 'DC=cosci,DC=be'
+
+$OUs = @(
+"ou=Employees",
+"ou=Sales,ou=Employees",
+"ou=Marketing,ou=Sales,ou=Employees",
+"ou=Customer Succes,ou=Sales,ou=Employees",
+"ou=HR,ou=Employees",
+"ou=IT,ou=Engineering,ou=Employees",
+"ou=Factory Engineering,ou=Engineering,ou=Employees",
+"ou=Research and Development,ou=Engineering,ou=Employees",
+"ou=Research,ou=Research and Development,ou=Engineering,ou=Employees",
+"ou=Development,ou=Research and Development,ou=Engineering,ou=Employees"
+)
+
+
+$OUs | ForEach-Object {
+$RES = $(if (Get-ADOrganizationalUnit -Filter "distinguishedName -eq '$_,$BaseDN'") {"[PASS]"} else {"[FAIL]"})
+Write-Host "$RES $_,$BaseDN"
+}
+
+---
+
+Volgend script gaat na of de groupen correct zijn aangemaakt en de lidmaatschappen kloppen.µ
+
+---
+$BaseDN = 'cn=Users,DC=cosci,DC=be'
+
+$GROUPs = @(
+"System Administrators",
+"IT-admin",
+"Wifi-users",
+"BadgeReader-users",
+"Employee-administration"
+)
+Write-Host "Checking if groups are created ...."
+$GROUPs | ForEach-Object {
+$RES = $( if (Get-ADGroup -Filter "DistinguishedName -eq 'cn=$_,$Basedn'") {"[PASS]"} else {"[FAIL]"})
+Write-Host "$RES cn=$_,$Basedn exists in the OU"
+}
+
+Write-Host "Checking if group memberships are correct ..."
+$user= Read-Host "Enter the user whose added to the IT-admin group"
+$members = Get-ADGroupMember -Identity Wifi-users | Select -ExpandProperty Name
+$RES= $(If ($members -contains 'IT-admin') {"[PASS]"} else {"[FAIL]"})
+Write-Host $RES IT-Admins is member of Wifi-users
+$members = Get-ADGroupMember -Identity Wifi-users -Recursive | Select -ExpandProperty Name
+$RES= $(If ($members -contains "$user") {"[PASS]"} else {"[FAIL]"})
+Write-Host $RES $user is member of Wifi-users via IT-Admins 
+
+---
+
+
 == Scripting
 Bij systeembeheer komen altijd repetititieve taakjes kijken, en dat is bij Windows Active Directory niet anders. Daarom biedt Windows een heel krachtige scripting-taal via PowerShell. PowerShell is ontwikkeld door Microsoft, wat maakt dat het enorm goed kan samenwerken met Active Directory.
 
