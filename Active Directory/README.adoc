@@ -129,7 +129,7 @@ Een SRV-record is een record in DNS waarin je een bepaalde service beschrijft, a
 
 image::cosci_SRV.png[]
 
-Wanneer we een client opnemen in het domein `cosci.be` wordt er een query gedaan naar `ldap._tcp.dc._msdcs.cosci.be`, en de client krijgt als antwoord het IP en de poort waar het domeinregistratieproces op draait. Test dit zeker zelf ook eens uit.
+Wanneer we een client opnemen in het domein `cosci.be` wordt er een query gedaan naar `_ldap._tcp.dc._msdcs.cosci.be`, en de client krijgt als antwoord het IP en de poort waar het domeinregistratieproces op draait. Test dit zeker zelf ook eens uit.
 
 TIP: NSLookup is een tool die je veel nodig gaat hebben voor het opsporen van problemen. Het volledige commando hier uitleggen met al zijn opties is omslachtig. De help-functie en Google zijn uw vriend.
 
