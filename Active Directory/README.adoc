@@ -192,7 +192,6 @@ Volgend script gaat na of de OUs correct zijn aangemaakt.
 [source,powershell]
 ---
 $BaseDN = 'DC=cosci,DC=be'
-
 $OUs = @(
 "ou=Employees",
 "ou=Sales,ou=Employees",
@@ -205,13 +204,10 @@ $OUs = @(
 "ou=Research,ou=Research and Development,ou=Engineering,ou=Employees",
 "ou=Development,ou=Research and Development,ou=Engineering,ou=Employees"
 )
-
-
 $OUs | ForEach-Object {
 $RES = $(if (Get-ADOrganizationalUnit -Filter "distinguishedName -eq '$_,$BaseDN'") {"[PASS]"} else {"[FAIL]"})
 Write-Host "$RES $_,$BaseDN"
 }
-
 ---
 
 Volgend script gaat na of de groupen correct zijn aangemaakt en de lidmaatschappen kloppen.µ
@@ -219,7 +215,6 @@ Volgend script gaat na of de groupen correct zijn aangemaakt en de lidmaatschapp
 [source,powershell]
 ---
 $BaseDN = 'cn=Users,DC=cosci,DC=be'
-
 $GROUPs = @(
 "System Administrators",
 "IT-admin",
@@ -232,7 +227,6 @@ $GROUPs | ForEach-Object {
 $RES = $( if (Get-ADGroup -Filter "DistinguishedName -eq 'cn=$_,$Basedn'") {"[PASS]"} else {"[FAIL]"})
 Write-Host "$RES cn=$_,$Basedn exists in the OU"
 }
-
 Write-Host "Checking if group memberships are correct ..."
 $user= Read-Host "Enter the user whose added to the IT-admin group"
 $members = Get-ADGroupMember -Identity Wifi-users | Select -ExpandProperty Name
@@ -241,7 +235,6 @@ Write-Host $RES IT-Admins is member of Wifi-users
 $members = Get-ADGroupMember -Identity Wifi-users -Recursive | Select -ExpandProperty Name
 $RES= $(If ($members -contains "$user") {"[PASS]"} else {"[FAIL]"})
 Write-Host $RES $user is member of Wifi-users via IT-Admins 
-
 ---
 
 
