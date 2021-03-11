@@ -228,7 +228,7 @@ $RES = $( if (Get-ADGroup -Filter "DistinguishedName -eq 'cn=$_,$Basedn'") {"[PA
 Write-Host "$RES cn=$_,$Basedn exists in the OU"
 }
 Write-Host "Checking if group memberships are correct ..."
-$user= Read-Host "Enter the user whose added to the IT-admin group"
+$user= Read-Host "Enter the user who was added to the IT-admin group"
 $members = Get-ADGroupMember -Identity Wifi-users | Select -ExpandProperty Name
 $RES= $(If ($members -contains 'IT-admin') {"[PASS]"} else {"[FAIL]"})
 Write-Host $RES IT-Admins is member of Wifi-users
