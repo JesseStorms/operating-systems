@@ -29,9 +29,9 @@ Een alternatief is om een legale productcode aan te vragen bij Microsoft via de 
 
 De firma Cosci heeft op dit moment een 70-tal Windows PC's.
 
-image::cosci-netinfra.png[]
-
 Hieronder een schema zoals het  bedrijfsnetwerk er momenteel uitziet. Eén router is met het internet verbonden, aan die router is een switch verbonden en aan die switch hangen een heleboel PC's en printers.
+
+image::cosci-netinfra.png[]
 
 Iedere keer dat er een nieuwe werknemer wordt aangenomen, moet de ICT-afdeling een nieuwe PC klaarmaken, er een lokaal account op maken en deze gaan plaatsen op het bureau. Ook wanneer een personeelslid van afdeling verhuist, moet ze handmatig een nieuw account gaan maken op de PC die er staat. Iedere keer wanneer een gebruiker zijn wachtwoord vergeet, moet een administrator op alle PC's waarop deze gebruiker werkt, aanmelden met het Administrator-account en het paswoord lokaal op de PC veranderen.
 
