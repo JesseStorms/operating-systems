@@ -26,7 +26,7 @@ Bij Disk 1, de schijf die je net hebt toegevoegd krijg je de melding *The disk i
 
 image::images/pic2.png[]
 
-Initialiseer de disk daarna door opnieuw rechts te klikken op de diks. Met rechtermuisknop kiezen we voor 'Initialize Disk' en gebruik GPT. Nu is de status van de disk *Online*. Toch zal de disk nog altijd niet werken, omdat we nog een bestandsysteem moeten installeren. Dit kan je doen door met rechtermuisknop te kiezen voor *Nieuw Volume*. 
+Initialiseer de disk daarna door opnieuw rechts te klikken op de disk. Met rechtermuisknop kiezen we voor 'Initialize Disk' en gebruik GPT. Nu is de status van de disk *Online*. Toch zal de disk nog altijd niet werken, omdat we nog een bestandsysteem moeten installeren. Dit kan je doen door met rechtermuisknop te kiezen voor *Nieuw Volume*. 
 
 image::images/pic3.png[]
 
