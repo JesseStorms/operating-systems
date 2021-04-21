@@ -21,7 +21,7 @@ Zorg dat de VM een netwerkkaart heeft waarmee gecommuniceerd kan worden tussen d
 
 Koppel het ISO-bestand met de Windows-installatie aan de virtuele machine en start de machine. Vul géén productsleutel in. Je installatie zal na een tijd vervallen, maar we kunnen dit lang genoeg rekken tot na het examen… .
 
-Net voordat je licentie verloopt kan je wel Windows “rearmen”, wat wil zeggen dat je je evaluatieperiode verlengt. Dat kan je een aantal keer doen, totdat de evaluatieperiode verstreken is. Meer informatie over het verlengen van de licentiesleutel vind je op de https://support.microsoft.com/en-us/help/948472/how-to-extend-the-windows-server-2008-evaluation-period[Microsoft Support-website]. 
+Net voordat je licentie verloopt kan je wel Windows “rearmen”, wat wil zeggen dat je je evaluatieperiode verlengt. Dat kan je een aantal keer doen, totdat de evaluatieperiode verstreken is. Meer informatie over het verlengen van de licentiesleutel vind je op deze https://petri.com/how-to-extend-windows-server-evaluation[website]. 
 
 Een alternatief is om een legale productcode aan te vragen bij Microsoft via de Intranet website van UCLL. Via deze website kan je gratis Microsoft-software downloaden, waaronder allerlei edities van Windows. Eens je via deze website een productsleutel gekregen hebt, kan je die eenvoudigweg ingeven in de virtuele machine.
 
@@ -29,15 +29,15 @@ Een alternatief is om een legale productcode aan te vragen bij Microsoft via de 
 
 De firma Cosci heeft op dit moment een 70-tal Windows PC's.
 
-image::cosci-netinfra.png[]
-
 Hieronder een schema zoals het  bedrijfsnetwerk er momenteel uitziet. Eén router is met het internet verbonden, aan die router is een switch verbonden en aan die switch hangen een heleboel PC's en printers.
+
+image::cosci-netinfra.png[]
 
 Iedere keer dat er een nieuwe werknemer wordt aangenomen, moet de ICT-afdeling een nieuwe PC klaarmaken, er een lokaal account op maken en deze gaan plaatsen op het bureau. Ook wanneer een personeelslid van afdeling verhuist, moet ze handmatig een nieuw account gaan maken op de PC die er staat. Iedere keer wanneer een gebruiker zijn wachtwoord vergeet, moet een administrator op alle PC's waarop deze gebruiker werkt, aanmelden met het Administrator-account en het paswoord lokaal op de PC veranderen.
 
 De ICT-afdeling heeft gehoord dat dit efficiënter kan door de PC's aan een **Active Directory-server** te koppelen, waarop ze alle PC's en gebruikers vanop één centrale plaats kunnen beheren. Ook het beheer van printers en PC-instellingen zouden eenvoudiger via dit Active Directory kunnen verlopen.
 
-NOTE: Active Directory bestaat uit meer dan alleen een Active Directory Domain Controller. Voor de eenvoud van dit labo gaan we er van uit dat een Windows Domain hetzelfde is als een Active Directory Domain of een Domain en dat dit  Domain wordt beheerd of invulling krijgt door middel van een Domain Controller die, ook wel Active Directory Domain Controller genoemd. Aan de UCLL wordt Active Directory bijvoorbeeld gebruikt, zodat jullie in de PC-klassen op gelijkwelke computer kunnen inloggen met jullie gebruikersnaam. Alle computers van de PC-klas zitten in het UCLL-domein, en wanneer je inlogt op één van die computers worden je gegevens gecontroleerd door de domain controller.
+NOTE: Active Directory bestaat uit meer dan alleen een Active Directory Domain Controller. Voor de eenvoud van dit labo gaan we er van uit dat een Windows Domain hetzelfde is als een Active Directory Domain of een Domain en dat dit  Domain wordt beheerd of invulling krijgt door middel van een Domain Controller die, ook wel Active Directory Domain Controller wordt genoemd. Aan de UCLL wordt Active Directory bijvoorbeeld gebruikt, zodat jullie in de PC-klassen op gelijkwelke computer kunnen inloggen met jullie gebruikersnaam. Alle computers van de PC-klas zitten in het UCLL-domein, en wanneer je inlogt op één van die computers worden je gegevens gecontroleerd door de domain controller.
 
 == Windows Domein
 Om te beginnen aan dit labo moeten we eerst begrijpen wat een Windows Domain is. Een Windows Domain is een logisch netwerk, waarin alle user-accounts, computers, printers, netwerkschijven, ... geregistreerd zijn op een centrale server, de Active Directory Domain Controller. Doordat alles centraal geregistreerd is, kunnen we het ook centraal beheren. Dit geeft ons een heleboel mogelijkheden:
@@ -129,7 +129,7 @@ Een SRV-record is een record in DNS waarin je een bepaalde service beschrijft, a
 
 image::cosci_SRV.png[]
 
-Wanneer we een client opnemen in het domein `cosci.be` wordt er een query gedaan naar `ldap._tcp.dc._msdcs.cosci.be`, en de client krijgt als antwoord het IP en de poort waar het domeinregistratieproces op draait. Test dit zeker zelf ook eens uit.
+Wanneer we een client opnemen in het domein `cosci.be` wordt er een query gedaan naar `_ldap._tcp.dc._msdcs.cosci.be`, en de client krijgt als antwoord het IP en de poort waar het domeinregistratieproces op draait. Test dit zeker zelf ook eens uit.
 
 TIP: NSLookup is een tool die je veel nodig gaat hebben voor het opsporen van problemen. Het volledige commando hier uitleggen met al zijn opties is omslachtig. De help-functie en Google zijn uw vriend.
 
@@ -187,6 +187,54 @@ Maak daarnaast in de OU=Users ook de volgende groepen aan.
 
 En voeg IT-Admins als een groep toe aan Wifi-users. Voeg jezelf ook toe aan de IT-admins groep en controleer of je daarmee ook toegevoegd bent aan de Wifi-users groep.
 
+Volgend script gaat na of de OUs correct zijn aangemaakt.
+
+[source,powershell]
+$BaseDN = 'DC=cosci,DC=be'
+$OUs = @(
+"ou=Employees",
+"ou=Sales,ou=Employees",
+"ou=Marketing,ou=Sales,ou=Employees",
+"ou=Customer Succes,ou=Sales,ou=Employees",
+"ou=HR,ou=Employees",
+"ou=IT,ou=Engineering,ou=Employees",
+"ou=Factory Engineering,ou=Engineering,ou=Employees",
+"ou=Research and Development,ou=Engineering,ou=Employees",
+"ou=Research,ou=Research and Development,ou=Engineering,ou=Employees",
+"ou=Development,ou=Research and Development,ou=Engineering,ou=Employees"
+)
+$OUs | ForEach-Object {
+$RES = $(if (Get-ADOrganizationalUnit -Filter "distinguishedName -eq '$_,$BaseDN'") {"[PASS]"} else {"[FAIL]"})
+Write-Host "$RES $_,$BaseDN"
+}
+
+Volgend script gaat na of de groupen correct zijn aangemaakt en de lidmaatschappen kloppen.
+
+[source,powershell]
+$BaseDN = 'cn=Users,DC=cosci,DC=be'
+$GROUPs = @(
+"System Administrators",
+"IT-admin",
+"Wifi-users",
+"BadgeReader-users",
+"Employee-administration"
+)
+Write-Host "Checking if groups are created ...."
+$GROUPs | ForEach-Object {
+$RES = $( if (Get-ADGroup -Filter "DistinguishedName -eq 'cn=$_,$Basedn'") {"[PASS]"} else {"[FAIL]"})
+Write-Host "$RES cn=$_,$Basedn exists in the OU"
+}
+Write-Host "Checking if group memberships are correct ..."
+$user= Read-Host "Enter the user who was added to the IT-admin group"
+$members = Get-ADGroupMember -Identity Wifi-users | Select -ExpandProperty Name
+$RES= $(If ($members -contains 'IT-admin') {"[PASS]"} else {"[FAIL]"})
+Write-Host $RES IT-Admins is member of Wifi-users
+$members = Get-ADGroupMember -Identity Wifi-users -Recursive | Select -ExpandProperty Name
+$RES= $(If ($members -contains "$user") {"[PASS]"} else {"[FAIL]"})
+Write-Host $RES $user is member of Wifi-users via IT-Admins 
+
+
+
 == Scripting
 Bij systeembeheer komen altijd repetititieve taakjes kijken, en dat is bij Windows Active Directory niet anders. Daarom biedt Windows een heel krachtige scripting-taal via PowerShell. PowerShell is ontwikkeld door Microsoft, wat maakt dat het enorm goed kan samenwerken met Active Directory.
 
@@ -194,7 +242,7 @@ Bij systeembeheer komen altijd repetititieve taakjes kijken, en dat is bij Windo
 Ontwikkel eerst en vooral een scriptje waarmee je 1 user kan aanmaken, waaraan je de opties voornaam en naam meegeeft. De gebruikersnaam wordt automatisch ingesteld op `voornaam.familienaam`.
 
 
----
+[source,powershell]
     #filename add_user.ps1
     $voornaam=$args[0]
     $achternaam=$args[1]
@@ -202,13 +250,13 @@ Ontwikkel eerst en vooral een scriptje waarmee je 1 user kan aanmaken, waaraan j
     $SecurePassword = $paswoord | ConvertTo-SecureString -AsPlainText -Force
     New-ADUser -Name "$voornaam $achternaam" -SamAccountName "$voornaam.$achternaam" -AccountPassword $SecurePassword -Enabled $true
 
----
+
 
 === Veel users aanmaken
 In het labo vind je een Excel-bestand met een heleboel namen. De bedoeling is dat je deze namen allemaal automatisch inleest en de gebruikers eruit aanmaakt.
 
----
 
+[source,powershell]
     Get-Content .\names.csv |  foreach-object {
     $Split = $_ -split ' '
     $voornaam=$Split[1] 
@@ -216,12 +264,11 @@ In het labo vind je een Excel-bestand met een heleboel namen. De bedoeling is da
     .\add_user.ps1 $voornaam $achternaam
     }
 
----
 
 === Password resets
 Maak een scriptje dat het wachtwoord van een disabled gebruiker instelt op een vooraf bepaald paswoord (p@ssw0rd) en de gebruiker terug enabled. De gebruiker moet zijn wachtwoord aanpassen de volgende keer dat hij aanmeldt.
 
----
+[source,powershell]
     $paswoord="p@ssw0rd"
     $SecurePassword = $paswoord | ConvertTo-SecureString -AsPlainText -Force
     Write-Host "Volgende gebruikers zijn DISABLED"
@@ -233,7 +280,6 @@ Maak een scriptje dat het wachtwoord van een disabled gebruiker instelt op een v
     Write-Host "Gebruiker $Gebruiker zijn/haar paswoord is reset naar **p@ssw0rd** en de gebruiker is terug actief" 
     Get-ADUser -Filter  {Enabled -eq $True} | Select-Object -Property SamAccountName, Enabled |  ft
 
----
 
 == Wat moet je na dit labo minstens kennen/kunnen
 * Je weet en kan uitleggen wat een SHA1-checksum is en waarvoor het gebruikt kan worden (onthouden en begrijpen)
@@ -244,7 +290,7 @@ Maak een scriptje dat het wachtwoord van een disabled gebruiker instelt op een v
 * Je weet en kan aan de hand van een duidelijk schema uitleggen wat een domein tree en domein forest is (onthouden, begrijpen)
 * Je weet en kan uitleggen wat een OU is (onthouden, begrijpen)
 * Je kan OU's aanmaken in AD DS (toepssen)
-* Je kan gebruikers en groepen aamaken in AD DS (toeapssen)
+* Je kan gebruikers en groepen aamaken in AD DS (toepassen)
 * Je kan de eigenschappen van gebruikers en groepen binnen AD DS aanpassen (begrijpen, toepassen)
 * Je weet en kan lokaal en gobaal (domein) op een Windows 10 machine inloggen (begrijpen en toepassen)
 * Je kan uitleggen a.d.h.v de Windows ISE wat een PowerShell script doet en hoe het werkt (toepassen en analyseren)
